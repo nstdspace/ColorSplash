@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -73,14 +74,14 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void loadResources(){
-//		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//		parameter.size = 70;
-//		parameter.minFilter = Texture.TextureFilter.Nearest;
-//		parameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
-//		parameter.flip = true;
-//		parameter.color = Color.WHITE;
-//		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Minimoon.ttf"));
-//		defaultFont = generator.generateFont(parameter);
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 70;
+		parameter.minFilter = Texture.TextureFilter.Nearest;
+		parameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+		parameter.flip = true;
+		parameter.color = Color.WHITE;
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Minimoon.ttf"));
+		defaultFont = generator.generateFont(parameter);
 	}
 
 
@@ -93,7 +94,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		gameStage.act();
