@@ -1,5 +1,6 @@
 package de.nstdspace.colorsplash.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -25,12 +26,9 @@ public class GameField extends Group {
 
     private Stylesheet stylesheet;
 
-    public GameField(){
-        setPosition((ColorSplashGame.VIEWPORT_WIDTH - boardSize) / 2, (ColorSplashGame.VIEWPORT_HEIGHT - boardSize) / 2);
-    }
-
-    public void create(Stylesheet stylesheet){
+    public GameField(Stylesheet stylesheet){
         this.stylesheet = stylesheet;
+        setPosition((ColorSplashGame.VIEWPORT_WIDTH - boardSize) / 2, (ColorSplashGame.VIEWPORT_HEIGHT - boardSize) / 2);
         create();
     }
 
@@ -43,7 +41,7 @@ public class GameField extends Group {
         this.gameFieldListener = listener;
     }
 
-    public void create(){
+    private void create(){
         for(int i = 0; i < gridSize; i++){
             for(int j = 0; j < gridSize; j++){
                 final DefaultColorBox box = new DefaultColorBox(i, j, stylesheet.getColorBoxTexture());

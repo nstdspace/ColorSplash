@@ -13,7 +13,7 @@ import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
 import de.nstdspace.colorsplash.view.GameFieldListener;
 
-public class DefaultGameMode implements GameFieldListener {
+public class DefaultGameMode implements GameMode, GameFieldListener {
 
     private GameListener gameListener;
     private GameField gameField;
@@ -28,15 +28,18 @@ public class DefaultGameMode implements GameFieldListener {
     public DefaultGameMode(ArrayList<Color> colors, Color gameEndFillColor){
         this.gameEndFillColor = gameEndFillColor;
         createColorSwitchMap(colors);
-        createGameField();
-
+        create();
         //TODO: make level system and so on
         gameField.shuffle(GameField.ChangePattern.CROSS_SURROUND, colorSwitchMap, 100);
     }
 
+    @Override
+    public void create() {
+        createGameField();
+    }
+
     private void createGameField(){
-        gameField = new GameField();
-        gameField.create(new DefaultStylesheet());
+        gameField = new GameField(new DefaultStylesheet());
         gameField.addGameFieldListener(this);
         gameField.fill(gameEndFillColor);
     }
@@ -61,15 +64,17 @@ public class DefaultGameMode implements GameFieldListener {
                 Actions.scaleTo(0.8f, 0.8f, 0.1f, Interpolation.fade),
                 Actions.scaleTo(1.0f, 1.0f, 0.1f, Interpolation.fade)));
 
-        if(checkGameFieldPattern(defaultPattern)){
+        if(checkGameEndCondition()){
             gameListener.gameFinished();
         }
     }
 
+    @Override
     public GameField getGameField(){
         return gameField;
     }
 
+    @Override
     public void addGameListener(GameListener listener){
         this.gameListener = listener;
     }
@@ -80,6 +85,11 @@ public class DefaultGameMode implements GameFieldListener {
             return box.getGameColor().equals(gameEndFillColor);
         }
     };
+
+    @Override
+    public boolean checkGameEndCondition(){
+        return checkGameFieldPattern(defaultPattern);
+    }
 
     private boolean checkGameFieldPattern(GameFieldPattern pattern){
         DefaultColorBox colorBoxGrid[][] = gameField.getBoxGrid();
