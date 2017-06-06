@@ -76,7 +76,7 @@ public class DefaultGameMode implements GameMode, GameFieldListener {
 
     @Override
     public void addGameListener(GameListener listener){
-        this.gameListener = listener;
+        this.gameListener = listener; // more like setGameListener?
     }
 
     private GameFieldPattern defaultPattern = new GameFieldPattern() {

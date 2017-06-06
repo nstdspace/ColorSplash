@@ -13,11 +13,7 @@ public class DefaultStylesheet implements Stylesheet {
     private static Texture backgroundTexture;
     private static TextureRegionDrawable colorBoxTextureRegionDrawable;
 
-    public DefaultStylesheet(){
-        createTextures();
-    }
-
-    private void createTextures(){
+    static {
         backgroundTexture = ResourceTools.loadTexture("background2.png");
         colorBoxTextureRegionDrawable = new TextureRegionDrawable(new TextureRegion(ResourceTools.loadTexture("colorbox.png")));
     }
@@ -30,5 +26,10 @@ public class DefaultStylesheet implements Stylesheet {
     @Override
     public TextureRegionDrawable getColorBoxTexture() {
         return colorBoxTextureRegionDrawable;
+    }
+
+    public static void dispose() {
+        backgroundTexture.dispose();
+        colorBoxTextureRegionDrawable.getRegion().getTexture().dispose();
     }
 }

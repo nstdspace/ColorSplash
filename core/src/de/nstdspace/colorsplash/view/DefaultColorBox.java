@@ -33,7 +33,9 @@ public class DefaultColorBox extends Image {
 
     @Override
     public void draw(Batch batch, float parentAlpha){
+        Color oldColor = batch.getColor();
         batch.setColor(getColor());
         super.draw(batch, parentAlpha);
+        batch.setColor(oldColor);
     }
 }
