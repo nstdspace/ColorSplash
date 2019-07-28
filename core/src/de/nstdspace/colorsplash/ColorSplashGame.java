@@ -31,6 +31,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	private GameMode gameMode;
 	private SpriteBatch batch;
 	private BitmapFont defaultFont;
+	private OrthographicCamera camera;
 
 	public static float VIEWPORT_WIDTH = 720;
 	public static float VIEWPORT_HEIGHT = 1280;
@@ -38,13 +39,27 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	@Override
 	public void create() {
 		super.create();
+		createCamera();
+		createGameStage();
+		createGameMode();
+		loadResources();
+		showIntro();
+		batch = new SpriteBatch();
+		Gdx.input.setInputProcessor(gameStage);
+	}
 
-		OrthographicCamera camera = new OrthographicCamera();
+	private void createCamera(){
+		camera = new OrthographicCamera();
 		camera.setToOrtho(true, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+	}
+
+	private void createGameStage(){
 		//TODO: choose best viewport..
 		FitViewport viewport = new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, camera);
 		gameStage = new Stage(viewport);
+	}
 
+	private void createGameMode(){
 		ArrayList<Color> colorList = new ArrayList<Color>();
 		colorList.add(Color.RED);
 		colorList.add(Color.GREEN);
@@ -52,9 +67,9 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		colorList.add(Color.BROWN);
 		gameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 3);
 		gameMode.addGameListener(this);
+	}
 
-		loadResources();
-
+	private void showIntro(){
 		final IntroViewContext introViewContext = new IntroViewContext(defaultFont);
 		introViewContext.setSubViewListener(new ViewContextListener() {
 			@Override
@@ -70,9 +85,6 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 			}
 		});
 		gameStage.addActor(introViewContext);
-
-		batch = new SpriteBatch();
-		Gdx.input.setInputProcessor(gameStage);
 	}
 
 	private void loadResources(){
