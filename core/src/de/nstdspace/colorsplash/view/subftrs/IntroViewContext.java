@@ -21,6 +21,7 @@ public class IntroViewContext extends ViewContext {
     private Actor actor;
 
     public IntroViewContext(BitmapFont font){
+        onCreate();
         this.font = font;
         GlyphLayout layout = new GlyphLayout();
         layout.setText(font, introText);

@@ -16,11 +16,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
 
-import de.nstdspace.colorsplash.game.gamemode.DefaultGameMode;
 import de.nstdspace.colorsplash.game.GameListener;
 import de.nstdspace.colorsplash.game.gamemode.GameMode;
-import de.nstdspace.colorsplash.game.gamemode.GameMode1;
 import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
+import de.nstdspace.colorsplash.view.GameField;
 import de.nstdspace.colorsplash.view.subftrs.GuiViewContext;
 import de.nstdspace.colorsplash.view.subftrs.IntroViewContext;
 import de.nstdspace.colorsplash.view.subftrs.ViewContextListener;
@@ -36,14 +35,27 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	public static float VIEWPORT_WIDTH = 720;
 	public static float VIEWPORT_HEIGHT = 1280;
 
+	public boolean SHOW_INTRO = false;
+
 	@Override
 	public void create() {
 		super.create();
+
+		VIEWPORT_WIDTH = Gdx.graphics.getWidth();
+		VIEWPORT_HEIGHT = Gdx.graphics.getHeight();
+
 		createCamera();
 		createGameStage();
 		createGameMode();
 		loadResources();
-		showIntro();
+
+		if(SHOW_INTRO) {
+			showIntro();
+		}
+		else {
+			showGame();
+		}
+
 		batch = new SpriteBatch();
 		Gdx.input.setInputProcessor(gameStage);
 	}
@@ -65,7 +77,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		colorList.add(Color.GREEN);
 		colorList.add(Color.BLUE);
 		colorList.add(Color.BROWN);
-		gameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 3);
+		gameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 1);
 		gameMode.addGameListener(this);
 	}
 
@@ -79,12 +91,16 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 			@Override
 			public void onDispose() {
-				gameStage.addActor(new GuiViewContext(gameMode.getGameField().getStylesheet()));
-				gameStage.addActor(gameMode.getGameField());
+				showGame();
 				introViewContext.addAction(Actions.removeActor());
 			}
 		});
 		gameStage.addActor(introViewContext);
+	}
+
+	private void showGame(){
+		gameStage.addActor(new GuiViewContext(gameMode.getGameField().getStylesheet()));
+		gameStage.addActor(gameMode.getGameField());
 	}
 
 	private void loadResources(){
@@ -101,8 +117,18 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	@Override
 	public void gameFinished() {
-		Gdx.app.log("FINISH!", "PS: you are a noob.");
-		gameMode.getGameField().addAction(Actions.moveBy(0, 1000, 1f, Interpolation.fade));
+		GameField gameField = gameMode.getGameField();
+		gameField.addAction(Actions.parallel(
+				Actions.sequence(
+					Actions.scaleTo(0, 1, 1, Interpolation.pow3In),
+					Actions.scaleTo(1, 1, 1, Interpolation.pow3Out)
+				),
+				Actions.sequence(
+					Actions.moveBy(gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3In),
+					Actions.moveBy(-1 * gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3Out)
+				),
+				Actions.alpha(0, 2, Interpolation.fade)
+		));
 	}
 
 
@@ -110,7 +136,6 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	public void render() {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		gameStage.act();
 		gameStage.draw();
 	}

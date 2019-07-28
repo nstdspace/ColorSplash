@@ -18,17 +18,21 @@ public class GuiViewContext extends ViewContext {
     //TODO: move to stylesheet
     private Texture guiBackground;
 
+    private static float RELATIVE_BUTTON_BAR_HEIGHT = 0.1f;
+    private float buttonBarHeight;
+
     public GuiViewContext(Stylesheet stylesheet){
         this.stylesheet = stylesheet;
         guiBackground = ResourceTools.createOneColoredTexture(new Color(0, 0, 0, 0.35f));
+        buttonBarHeight = ColorSplashGame.VIEWPORT_HEIGHT * RELATIVE_BUTTON_BAR_HEIGHT;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.setColor(Color.WHITE);
-        batch.draw(stylesheet.getBackgroundTexture(), 0, 0);
-        batch.draw(guiBackground, 0, 0, ColorSplashGame.VIEWPORT_WIDTH, 100);
-        batch.draw(guiBackground, 0, ColorSplashGame.VIEWPORT_HEIGHT - 100, ColorSplashGame.VIEWPORT_WIDTH, 100);
+        batch.draw(stylesheet.getBackgroundTexture(), 0, 0, ColorSplashGame.VIEWPORT_WIDTH, ColorSplashGame.VIEWPORT_HEIGHT);
+        batch.draw(guiBackground, 0, 0, ColorSplashGame.VIEWPORT_WIDTH, buttonBarHeight);
+        batch.draw(guiBackground, 0, ColorSplashGame.VIEWPORT_HEIGHT - buttonBarHeight, ColorSplashGame.VIEWPORT_WIDTH, buttonBarHeight);
     }
 }

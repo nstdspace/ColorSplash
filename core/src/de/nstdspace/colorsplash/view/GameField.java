@@ -1,6 +1,5 @@
 package de.nstdspace.colorsplash.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -15,7 +14,9 @@ import de.nstdspace.colorsplash.ColorSplashGame;
 
 public class GameField extends Group {
 
-    private float boardSize = ColorSplashGame.VIEWPORT_WIDTH * 0.8f;
+    public static final float RELATIVE_BOARD_WIDTH = 0.8f;
+
+    private float boardSize = ColorSplashGame.VIEWPORT_WIDTH * RELATIVE_BOARD_WIDTH;
     private int gridSize = 5;
     private float boxSize = boardSize / gridSize;
 
@@ -127,6 +128,10 @@ public class GameField extends Group {
 
     public int getGridSize(){
         return gridSize;
+    }
+
+    public float getBoardSize(){
+        return boardSize;
     }
 
     /**
