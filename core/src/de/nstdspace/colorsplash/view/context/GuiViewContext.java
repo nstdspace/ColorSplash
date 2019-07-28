@@ -1,4 +1,4 @@
-package de.nstdspace.colorsplash.view.subftrs;
+package de.nstdspace.colorsplash.view.context;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;

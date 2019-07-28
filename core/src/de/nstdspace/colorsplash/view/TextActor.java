@@ -20,6 +20,8 @@ public class TextActor extends Actor {
 
     private Texture DEBUG_BG;
 
+    public static boolean DEBUG = true;
+
     public TextActor(String text, BitmapFont font){
         this.text = text;
         this.font = font;
@@ -32,8 +34,13 @@ public class TextActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        Color color = batch.getColor();
-        batch.draw(DEBUG_BG, getX(), getY(), getWidth(), getHeight());
+
+        if(DEBUG){
+            Color color = batch.getColor();
+            batch.draw(DEBUG_BG, getX(), getY(), getWidth(), getHeight());
+            batch.setColor(color);
+        }
+
         font.draw(batch, text, getX(), getY());
     }
 }

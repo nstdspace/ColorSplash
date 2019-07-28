@@ -21,11 +21,12 @@ import de.nstdspace.colorsplash.game.gamemode.GameMode;
 import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
 import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
-import de.nstdspace.colorsplash.view.LevelSelectContext;
+import de.nstdspace.colorsplash.view.context.LevelSelectContext;
 import de.nstdspace.colorsplash.view.Stylesheet;
-import de.nstdspace.colorsplash.view.subftrs.GuiViewContext;
-import de.nstdspace.colorsplash.view.subftrs.IntroViewContext;
-import de.nstdspace.colorsplash.view.subftrs.ViewContextListener;
+import de.nstdspace.colorsplash.view.context.GuiViewContext;
+import de.nstdspace.colorsplash.view.context.IntroViewContext;
+import de.nstdspace.colorsplash.view.context.LevelSelectListener;
+import de.nstdspace.colorsplash.view.context.ViewContextListener;
 
 public class ColorSplashGame extends ApplicationAdapter implements GameListener {
 
@@ -91,7 +92,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	private void showIntro(){
 		final IntroViewContext introViewContext = new IntroViewContext(defaultFont);
-		introViewContext.setSubViewListener(new ViewContextListener() {
+		introViewContext.addViewContextListener(new ViewContextListener() {
 			@Override
 			public void onCreate() {
 
@@ -109,6 +110,23 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	private void showLevelSelect(){
 		gameStage.addActor(new GuiViewContext(currentGameMode.getGameField().getStylesheet()));
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
+		context.addLevelSelectListener(new LevelSelectListener() {
+			@Override
+			public void levelSelected(int level) {
+				context.remove();
+				showGame();
+			}
+
+			@Override
+			public void onCreate() {
+
+			}
+
+			@Override
+			public void onDispose() {
+
+			}
+		});
 		gameStage.addActor(context);
 	}
 
