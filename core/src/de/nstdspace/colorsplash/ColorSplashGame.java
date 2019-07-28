@@ -98,6 +98,10 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		gameStage.addActor(introViewContext);
 	}
 
+	public BitmapFont getDefaultFont(){
+		return defaultFont;
+	}
+
 	private void showGame(){
 		gameStage.addActor(new GuiViewContext(gameMode.getGameField().getStylesheet()));
 		gameStage.addActor(gameMode.getGameField());

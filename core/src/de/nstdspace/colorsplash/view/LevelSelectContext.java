@@ -1,9 +1,18 @@
 package de.nstdspace.colorsplash.view;
 
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
-public class LevelSelectMenu extends Group {
+import de.nstdspace.colorsplash.view.subftrs.ViewContext;
 
+public class LevelSelectContext extends ViewContext {
 
+    public LevelSelectContext(){
 
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+    }
 }
