@@ -13,15 +13,21 @@ public abstract class ViewContext extends Group {
     }
 
     protected void onCreate(){
-        for(ViewContextListener listener : this.listener){
-            listener.onCreate();
-        }
+        fireEvent((l) -> l.onCreate());
     }
 
     protected void onDispose(){
+        fireEvent((l) -> l.onDispose());
+    }
+
+    protected void fireEvent(ViewContextEventDisposer disposer){
         for(ViewContextListener listener : this.listener){
-            listener.onDispose();
+            disposer.fire(listener);
         }
+    }
+
+    protected interface ViewContextEventDisposer {
+        void fire(ViewContextListener context);
     }
 
     public void addViewContextListener(ViewContextListener listener){

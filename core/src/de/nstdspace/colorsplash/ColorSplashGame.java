@@ -160,7 +160,8 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 				),
 				Actions.alpha(0, 2, Interpolation.fade)
 		));
-
+		gameField.remove();
+		showLevelSelect();
 	}
 
 

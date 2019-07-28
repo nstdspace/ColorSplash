@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -25,6 +26,12 @@ public class LevelSelectContext extends ViewContext {
         Image i = new Image();
         i.setDrawable(new TextureRegionDrawable(t));
         i.setSize(100, 100);
+        i.addListener((event) -> {
+           if(((InputEvent) event).getType() == InputEvent.Type.touchDown){
+               fireEvent((l) -> ((LevelSelectListener) l).levelSelected(0));
+           }
+           return true;
+        });
 
         h.addActor(i);
 
