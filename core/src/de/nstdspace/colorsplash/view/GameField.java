@@ -78,15 +78,6 @@ public class GameField extends Group {
         }
     }
 
-    public void shuffle(ChangePattern pattern, HashMap<Color, Color> colorSwitchMap, int count){
-        Random random = new Random();
-        for(int i = 0; i < count; i++){
-            int y = random.nextInt(boxGrid.length);
-            int x = random.nextInt(boxGrid[y].length);
-            changeColors(y, x, pattern, colorSwitchMap);
-        }
-    }
-
     public void fill(final Color color){
         iterateBoxGrid(new BoxAction() {
             @Override
