@@ -3,6 +3,7 @@ package de.nstdspace.colorsplash.view;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * offers style data for different usages.
@@ -31,5 +32,10 @@ public class DefaultStylesheet implements Stylesheet {
     @Override
     public TextureRegionDrawable getColorBoxTexture() {
         return colorBoxTextureRegionDrawable;
+    }
+
+    @Override
+    public void dispose() {
+        backgroundTexture.dispose();
     }
 }

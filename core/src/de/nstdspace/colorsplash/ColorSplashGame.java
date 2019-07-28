@@ -30,7 +30,7 @@ import de.nstdspace.colorsplash.view.subftrs.ViewContextListener;
 public class ColorSplashGame extends ApplicationAdapter implements GameListener {
 
 	private Stage gameStage;
-	private GameMode gameMode;
+	private GameMode currentGameMode;
 	private SpriteBatch batch;
 	private BitmapFont defaultFont;
 	private OrthographicCamera camera;
@@ -53,7 +53,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 		createCamera();
 		createGameStage();
-		createGameMode();
+		createTestGameMode();
 		loadResources();
 
 		if(SHOW_INTRO) {
@@ -79,14 +79,14 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		gameStage = new Stage(viewport);
 	}
 
-	private void createGameMode(){
+	private void createTestGameMode(){
 		ArrayList<Color> colorList = new ArrayList<Color>();
 		colorList.add(Color.RED);
 		colorList.add(Color.GREEN);
 		colorList.add(Color.BLUE);
 		colorList.add(Color.BROWN);
-		gameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 1);
-		gameMode.addGameListener(this);
+		currentGameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 1);
+		currentGameMode.addGameListener(this);
 	}
 
 	private void showIntro(){
@@ -107,13 +107,13 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void showLevelSelect(){
+		gameStage.addActor(new GuiViewContext(currentGameMode.getGameField().getStylesheet()));
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		gameStage.addActor(context);
 	}
 
 	private void showGame(){
-		gameStage.addActor(new GuiViewContext(gameMode.getGameField().getStylesheet()));
-		gameStage.addActor(gameMode.getGameField());
+		gameStage.addActor(currentGameMode.getGameField());
 	}
 
 	private void loadResources(){
@@ -130,7 +130,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	@Override
 	public void gameFinished() {
-		GameField gameField = gameMode.getGameField();
+		GameField gameField = currentGameMode.getGameField();
 		gameField.addAction(Actions.parallel(
 				Actions.sequence(
 					Actions.scaleTo(0, 1, 1, Interpolation.pow3In),
@@ -157,5 +157,9 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	@Override
 	public void dispose() {
 		super.dispose();
+		defaultFont.dispose();
+		batch.dispose();
+		gameStage.dispose();
+		defaultStyleSheet.dispose();
 	}
 }
