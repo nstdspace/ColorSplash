@@ -63,9 +63,14 @@ public class GameField extends Group {
         }
     }
 
+    public void changeColors(DefaultColorBox box, ChangePattern pattern, HashMap<Color, Color> colorSwitchMap){
+        changeColors(box.fieldPositionX, box.fieldPositionY, pattern, colorSwitchMap);
+    }
+
     public void changeColors(int x, int y, ChangePattern pattern, HashMap<Color, Color> colorSwitchMap){
         for(int dir[] : pattern.getAffectedDirections()){
-            int arrayX = x + dir[0], arrayY = y + dir[1];
+            int arrayX = x + dir[0];
+            int arrayY = y + dir[1];
             if(arrayX >= 0 && arrayX < boxGrid.length && arrayY >= 0 && arrayY < boxGrid.length){
                 boxGrid[arrayY][arrayX].setColor(colorSwitchMap.get(boxGrid[arrayY][arrayX].getGameColor()));
             }
@@ -118,6 +123,10 @@ public class GameField extends Group {
 
     public DefaultColorBox getColorBox(int x, int y){
         return boxGrid[y][x];
+    }
+
+    public int getGridSize(){
+        return gridSize;
     }
 
     /**

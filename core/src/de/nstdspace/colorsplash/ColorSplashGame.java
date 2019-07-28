@@ -15,13 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import de.nstdspace.colorsplash.game.DefaultGameMode;
+import de.nstdspace.colorsplash.game.gamemode.DefaultGameMode;
 import de.nstdspace.colorsplash.game.GameListener;
-import de.nstdspace.colorsplash.game.GameMode;
-import de.nstdspace.colorsplash.view.DefaultStylesheet;
-import de.nstdspace.colorsplash.view.GameField;
+import de.nstdspace.colorsplash.game.gamemode.GameMode;
+import de.nstdspace.colorsplash.game.gamemode.GameMode1;
 import de.nstdspace.colorsplash.view.subftrs.GuiViewContext;
 import de.nstdspace.colorsplash.view.subftrs.IntroViewContext;
 import de.nstdspace.colorsplash.view.subftrs.ViewContextListener;
@@ -48,18 +46,18 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		FitViewport viewport = new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, camera);
 		gameStage = new Stage(viewport);
 
-//		ArrayList<Color> colorList = new ArrayList<Color>();
-//		colorList.add(Color.RED);
-//		colorList.add(Color.GREEN);
-//		colorList.add(Color.BLUE);
-//		colorList.add(Color.BROWN);
-//		gameMode = new DefaultGameMode(colorList, Color.RED);
-//		gameMode.addGameListener(this);
+		ArrayList<Color> colorList = new ArrayList<Color>();
+		colorList.add(Color.RED);
+		colorList.add(Color.GREEN);
+		colorList.add(Color.BLUE);
+		colorList.add(Color.BROWN);
+		gameMode = new GameMode1(colorList, Color.RED, 1);
+		gameMode.addGameListener(this);
 
 		/**
 		 * TEST NEW (anonymous) GAMEMODE!
          * you have to tap 10 fields to win.
-		 */
+
         gameMode = new GameMode() {
 
             int counter = 0;
@@ -90,7 +88,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
             @Override
             public void handleFieldTap(int x, int y) {
                 counter++;
-				HashMap<Color, Color> map = new HashMap<Color, Color>();
+				HashMap<Color, Color> map = new HashMap<>();
 				map.put(Color.GREEN, Color.RED);
 				map.put(Color.RED, Color.GREEN);
 				field.shuffle(new GameField.ChangePattern(new int[][]{{0, 0}}), map, 1000000);
@@ -104,7 +102,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		 */
 
 		loadResources();
-//
+
 		final IntroViewContext introViewContext = new IntroViewContext(defaultFont);
 		introViewContext.setSubViewListener(new ViewContextListener() {
 			@Override
