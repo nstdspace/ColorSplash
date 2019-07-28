@@ -20,9 +20,6 @@ public class DefaultColorBox extends Image {
 
     @Override
     public void setColor(Color color) {
-//        super.setColor(color);
-
-        //only test
         addAction(Actions.color(color, 0.3f));
         gameColor = color;
     }

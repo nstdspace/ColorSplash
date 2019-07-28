@@ -24,7 +24,6 @@ public class GameMode1 extends DefaultGameMode {
     @Override
     public void create() {
         createColorSwitchMap(colors);
-        super.create();
     }
 
     private void createColorSwitchMap(ArrayList<Color> colors){

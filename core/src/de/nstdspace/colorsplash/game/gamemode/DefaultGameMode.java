@@ -10,6 +10,7 @@ import de.nstdspace.colorsplash.game.GameListener;
 import de.nstdspace.colorsplash.view.DefaultColorBox;
 import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
+import de.nstdspace.colorsplash.view.Stylesheet;
 
 public abstract class DefaultGameMode implements GameMode {
 
@@ -20,11 +21,6 @@ public abstract class DefaultGameMode implements GameMode {
     public DefaultGameMode(int shuffleCount){
         this.gameListener = new ArrayList<>();
         this.shuffleCount = shuffleCount;
-    }
-
-    @Override
-    public void create() {
-        createGameField();
     }
 
     @Override
@@ -45,8 +41,8 @@ public abstract class DefaultGameMode implements GameMode {
 
     public abstract GameFieldPattern getGameEndPattern();
 
-    private void createGameField(){
-        gameField = new GameField(new DefaultStylesheet());
+    public void createGameField(Stylesheet stylesheet){
+        gameField = new GameField(stylesheet);
         gameField.addGameFieldListener(this);
         restoreInitialGameFieldAppearance();
     }

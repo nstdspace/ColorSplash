@@ -19,7 +19,10 @@ import java.util.ArrayList;
 import de.nstdspace.colorsplash.game.GameListener;
 import de.nstdspace.colorsplash.game.gamemode.GameMode;
 import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
+import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
+import de.nstdspace.colorsplash.view.LevelSelectContext;
+import de.nstdspace.colorsplash.view.Stylesheet;
 import de.nstdspace.colorsplash.view.subftrs.GuiViewContext;
 import de.nstdspace.colorsplash.view.subftrs.IntroViewContext;
 import de.nstdspace.colorsplash.view.subftrs.ViewContextListener;
@@ -31,6 +34,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	private SpriteBatch batch;
 	private BitmapFont defaultFont;
 	private OrthographicCamera camera;
+	private Stylesheet defaultStyleSheet;
 
 	public static float VIEWPORT_WIDTH = 720;
 	public static float VIEWPORT_HEIGHT = 1280;
@@ -44,6 +48,9 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		VIEWPORT_WIDTH = Gdx.graphics.getWidth();
 		VIEWPORT_HEIGHT = Gdx.graphics.getHeight();
 
+		defaultStyleSheet = new DefaultStylesheet();
+		GameModeManager.setStylesheet(defaultStyleSheet);
+
 		createCamera();
 		createGameStage();
 		createGameMode();
@@ -53,7 +60,8 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 			showIntro();
 		}
 		else {
-			showGame();
+			showLevelSelect();
+			//showGame();
 		}
 
 		batch = new SpriteBatch();
@@ -98,8 +106,9 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		gameStage.addActor(introViewContext);
 	}
 
-	public BitmapFont getDefaultFont(){
-		return defaultFont;
+	private void showLevelSelect(){
+		LevelSelectContext context = new LevelSelectContext(defaultFont);
+		gameStage.addActor(context);
 	}
 
 	private void showGame(){
@@ -133,6 +142,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 				),
 				Actions.alpha(0, 2, Interpolation.fade)
 		));
+
 	}
 
 
