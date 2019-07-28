@@ -8,6 +8,7 @@ public interface GameMode extends GameFieldListener {
 
     boolean checkGameEndCondition();
     void create();
+    void init();
     void addGameListener(GameListener listener);
     GameField getGameField();
 }

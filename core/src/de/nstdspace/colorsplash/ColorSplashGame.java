@@ -20,6 +20,7 @@ import de.nstdspace.colorsplash.game.gamemode.DefaultGameMode;
 import de.nstdspace.colorsplash.game.GameListener;
 import de.nstdspace.colorsplash.game.gamemode.GameMode;
 import de.nstdspace.colorsplash.game.gamemode.GameMode1;
+import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
 import de.nstdspace.colorsplash.view.subftrs.GuiViewContext;
 import de.nstdspace.colorsplash.view.subftrs.IntroViewContext;
 import de.nstdspace.colorsplash.view.subftrs.ViewContextListener;
@@ -38,8 +39,6 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	public void create() {
 		super.create();
 
-
-
 		OrthographicCamera camera = new OrthographicCamera();
 		camera.setToOrtho(true, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		//TODO: choose best viewport..
@@ -51,55 +50,8 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		colorList.add(Color.GREEN);
 		colorList.add(Color.BLUE);
 		colorList.add(Color.BROWN);
-		gameMode = new GameMode1(colorList, Color.RED, 1);
+		gameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 3);
 		gameMode.addGameListener(this);
-
-		/**
-		 * TEST NEW (anonymous) GAMEMODE!
-         * you have to tap 10 fields to win.
-
-        gameMode = new GameMode() {
-
-            int counter = 0;
-            GameField field = new GameField(new DefaultStylesheet());
-            GameListener listener;
-
-            @Override
-            public void create() {
-                field.fill(Color.GREEN);
-                field.addGameFieldListener(this);
-            }
-
-            @Override
-            public void addGameListener(GameListener listener) {
-                this.listener = listener;
-            }
-
-            @Override
-            public GameField getGameField() {
-                return field;
-            }
-
-            @Override
-            public boolean checkGameEndCondition() {
-                return counter == 10;
-            }
-
-            @Override
-            public void handleFieldTap(int x, int y) {
-                counter++;
-				HashMap<Color, Color> map = new HashMap<>();
-				map.put(Color.GREEN, Color.RED);
-				map.put(Color.RED, Color.GREEN);
-				field.shuffle(new GameField.ChangePattern(new int[][]{{0, 0}}), map, 1000000);
-                if(checkGameEndCondition()) listener.gameFinished();
-            }
-        };
-		gameMode.addGameListener(this);
-		gameMode.create();
-		/**
-		 * TEST end
-		 */
 
 		loadResources();
 

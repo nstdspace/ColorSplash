@@ -12,12 +12,19 @@ import de.nstdspace.colorsplash.view.GameField;
 public class GameMode1 extends DefaultGameMode {
 
     private Color gameEndFillColor;
+    private ArrayList<Color> colors;
     private HashMap<Color, Color> colorSwitchMap;
 
     public GameMode1(ArrayList<Color> colors, Color gameEndFillColor, int shuffleCount){
         super(shuffleCount);
+        this.colors = colors;
         this.gameEndFillColor = gameEndFillColor;
+    }
+
+    @Override
+    public void create() {
         createColorSwitchMap(colors);
+        super.create();
     }
 
     private void createColorSwitchMap(ArrayList<Color> colors){

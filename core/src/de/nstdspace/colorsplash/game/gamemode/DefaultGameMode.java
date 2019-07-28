@@ -15,16 +15,21 @@ public abstract class DefaultGameMode implements GameMode {
 
     private ArrayList<GameListener> gameListener;
     private GameField gameField;
+    private int shuffleCount;
 
     public DefaultGameMode(int shuffleCount){
         this.gameListener = new ArrayList<>();
-        create();
-        shuffleGameField(shuffleCount);
+        this.shuffleCount = shuffleCount;
     }
 
     @Override
     public void create() {
         createGameField();
+    }
+
+    @Override
+    public void init(){
+        shuffleGameField(shuffleCount);
     }
 
     public void shuffleGameField(int shuffleCount){
