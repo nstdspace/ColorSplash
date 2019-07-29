@@ -139,7 +139,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		parameter.size = 70;
 		parameter.minFilter = Texture.TextureFilter.Nearest;
 		parameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
-		parameter.flip = true;
+		parameter.flip = false;
 		parameter.color = Color.WHITE;
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Minimoon.ttf"));
 		defaultFont = generator.generateFont(parameter);
