@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -20,7 +23,7 @@ public class LevelSelectContext extends ViewContext {
 
     public LevelSelectContext(BitmapFont font){
         TextActor levelPackText = new TextActor("level Pack 1", font);
-        levelPackText.setPosition(0.5f * (-levelPackText.getWidth() + ColorSplashGame.VIEWPORT_WIDTH), 0.14f * ColorSplashGame.VIEWPORT_HEIGHT);
+        levelPackText.setPosition(0.5f * (-levelPackText.getWidth() + ColorSplashGame.VIEWPORT_WIDTH), ColorSplashGame.VIEWPORT_HEIGHT - (0.2f * ColorSplashGame.VIEWPORT_HEIGHT));
         addActor(levelPackText);
 
         createLevelButtons();
@@ -33,10 +36,7 @@ public class LevelSelectContext extends ViewContext {
         // TODO: this has to come from stylesheet or so
         levelAtlas = new Texture(Gdx.files.internal("level_num_atlas.png"));
         TextureRegion region0 = new TextureRegion(levelAtlas, 0, 0, 32, 32);
-        TextureRegion region1 = new TextureRegion(levelAtlas, 32, 0, 32, 32);
         TextureRegionDrawable dr0 = new TextureRegionDrawable(region0);
-        TextureRegionDrawable dr1 = new TextureRegionDrawable(region1);
-
         // TODO: remove hardcoding?
         float buttonRows = 7;
         float buttonCols = 5;
@@ -49,27 +49,44 @@ public class LevelSelectContext extends ViewContext {
 
         float groupHeight = buttonSize * buttonRows + (buttonRows - 1) * (buttonGapSize);
 
-        Gdx.app.log("DEBUG", "" + buttonGapSize);
-
         Group h = new Group();
 
-        Texture t = ResourceTools.createOneColoredTexture(Color.PINK);
-        Image test = new Image(t);
-        test.setSize(groupWidth, groupHeight);
-        h.addActor(test);
+//        Texture t = ResourceTools.createOneColoredTexture(Color.PINK);
+//        Image test = new Image(t);
+//        test.setSize(groupWidth, groupHeight);
+//        h.addActor(test);
 
+        Color buttonTint = new Color(249 / 255.0f, 224 / 255.0f, 14 / 255.0f, 1.0f);
 
         for(int i = 0; i < 35; i++){
             Image image = new Image();
-            image.setDrawable(i % 2 == 0 ? dr0 : dr1);
+            image.setDrawable(dr0);
             image.setSize(buttonSize, buttonSize);
             float buttonX = (i % 5) * (buttonSize + buttonGapSize);
             float buttonY = (i / 5) * (buttonSize + buttonGapSize);
             image.setPosition(buttonX, buttonY);
             int levelId = i;
+            image.setColor(buttonTint);
+            image.setOrigin(buttonSize * 0.5f, buttonSize * 0.5f);
             image.addListener((event) -> {
                 if(((InputEvent) event).getType() == InputEvent.Type.touchDown){
-                    fireEvent((l) -> ((LevelSelectListener) l).levelSelected(levelId));
+                    image.addAction(Actions.sequence(
+                            new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    image.setColor(Color.BLUE);
+                                    return true;
+                                }
+                            },
+                            Actions.scaleTo(4f, 4f, 2f, Interpolation.elasticOut),
+                            new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    fireEvent((l) -> ((LevelSelectListener) l).levelSelected(levelId));
+                                    return true;
+                                }
+                            }
+                    ));
                 }
                 return true;
             });

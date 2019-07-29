@@ -46,12 +46,17 @@ public class GuiViewContext extends ViewContext {
         //backgroundTextureRegion.setRegion(0, 0, ColorSplashGame.VIEWPORT_WIDTH, ColorSplashGame.VIEWPORT_HEIGHT);
 
         buttonBarHeight = ColorSplashGame.VIEWPORT_HEIGHT * RELATIVE_BUTTON_BAR_HEIGHT;
+
+        //TODO: move this to stylesheet
+        backgroundTint = new Color(220 / 255.0f, 83 / 255.0f, 83 / 255.0f, 1.0f);
     }
+
+    private Color backgroundTint;
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.setColor(Color.WHITE);
+        batch.setColor(backgroundTint);
         batch.draw(backgroundTextureRegion, 0, 0);
         batch.draw(guiBackground, 0, 0, ColorSplashGame.VIEWPORT_WIDTH, buttonBarHeight);
         batch.draw(guiBackground, 0, ColorSplashGame.VIEWPORT_HEIGHT - buttonBarHeight, ColorSplashGame.VIEWPORT_WIDTH, buttonBarHeight);

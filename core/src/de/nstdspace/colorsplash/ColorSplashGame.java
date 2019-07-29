@@ -41,7 +41,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	public static float VIEWPORT_WIDTH = 720;
 	public static float VIEWPORT_HEIGHT = 1280;
 
-	public boolean SHOW_INTRO = true;
+	public boolean SHOW_INTRO = false;
 
 	@Override
 	public void create() {

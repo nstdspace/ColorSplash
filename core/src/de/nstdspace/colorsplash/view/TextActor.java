@@ -1,5 +1,6 @@
 package de.nstdspace.colorsplash.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,17 +18,18 @@ public class TextActor extends Actor {
 
     private BitmapFont font;
     private String text;
+    private float yOffset;
 
     private Texture DEBUG_BG;
 
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     public TextActor(String text, BitmapFont font){
         this.text = text;
         this.font = font;
         GlyphLayout layout = new GlyphLayout(font, text);
         setSize(layout.width, layout.height);
-
+        yOffset = layout.height;
         DEBUG_BG = ResourceTools.createOneColoredTexture(Color.PINK);
     }
 
@@ -41,6 +43,6 @@ public class TextActor extends Actor {
             batch.setColor(color);
         }
 
-        font.draw(batch, text, getX(), getY());
+        font.draw(batch, text, getX(), getY() + yOffset);
     }
 }
