@@ -41,7 +41,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	public static float VIEWPORT_WIDTH = 720;
 	public static float VIEWPORT_HEIGHT = 1280;
 
-	public boolean SHOW_INTRO = false;
+	public boolean SHOW_INTRO = true;
 
 	@Override
 	public void create() {
@@ -101,8 +101,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 			@Override
 			public void onDispose() {
-				showGame();
-				introViewContext.addAction(Actions.removeActor());
+				showLevelSelect();
 			}
 		});
 		gameStage.addActor(introViewContext);
