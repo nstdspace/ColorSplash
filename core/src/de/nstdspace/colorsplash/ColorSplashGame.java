@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -149,19 +150,25 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	@Override
 	public void gameFinished() {
 		GameField gameField = currentGameMode.getGameField();
-		gameField.addAction(Actions.parallel(
+		Action gameFieldRemoveAnimation = Actions.parallel(
 				Actions.sequence(
-					Actions.scaleTo(0, 1, 1, Interpolation.pow3In),
-					Actions.scaleTo(1, 1, 1, Interpolation.pow3Out)
+						Actions.scaleTo(0, 1, 1, Interpolation.pow3In),
+						Actions.scaleTo(1, 1, 1, Interpolation.pow3Out)
 				),
 				Actions.sequence(
-					Actions.moveBy(gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3In),
-					Actions.moveBy(-1 * gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3Out)
+						Actions.moveBy(gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3In),
+						Actions.moveBy(-1 * gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3Out)
 				),
 				Actions.alpha(0, 2, Interpolation.fade)
-		));
-		gameField.remove();
-		showLevelSelect();
+		);
+		gameField.addAction(Actions.sequence(gameFieldRemoveAnimation, new Action() {
+			@Override
+			public boolean act(float delta) {
+				gameField.remove();
+				showLevelSelect();
+				return true;
+			}
+		}));
 	}
 
 
