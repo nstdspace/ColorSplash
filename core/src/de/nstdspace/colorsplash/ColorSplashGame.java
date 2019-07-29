@@ -72,7 +72,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	private void createCamera(){
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+		camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 	}
 
 	private void createGameStage(){
