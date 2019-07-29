@@ -10,96 +10,91 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
 
-import de.nstdspace.colorsplash.game.DefaultGameMode;
 import de.nstdspace.colorsplash.game.GameListener;
-import de.nstdspace.colorsplash.game.GameMode;
-import de.nstdspace.colorsplash.view.subftrs.GuiViewContext;
-import de.nstdspace.colorsplash.view.subftrs.IntroViewContext;
-import de.nstdspace.colorsplash.view.subftrs.ViewContextListener;
+
+import de.nstdspace.colorsplash.game.gamemode.GameMode;
+import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
+import de.nstdspace.colorsplash.view.DefaultStylesheet;
+import de.nstdspace.colorsplash.view.GameField;
+import de.nstdspace.colorsplash.view.context.LevelSelectContext;
+import de.nstdspace.colorsplash.view.Stylesheet;
+import de.nstdspace.colorsplash.view.context.GuiViewContext;
+import de.nstdspace.colorsplash.view.context.IntroViewContext;
+import de.nstdspace.colorsplash.view.context.LevelSelectListener;
+import de.nstdspace.colorsplash.view.context.ViewContextListener;
 
 public class ColorSplashGame extends ApplicationAdapter implements GameListener {
 
 	private Stage gameStage;
-	private GameMode gameMode;
+	private GameMode currentGameMode;
 	private SpriteBatch batch;
 	private BitmapFont defaultFont;
+	private OrthographicCamera camera;
+	private Stylesheet defaultStyleSheet;
 
 	public static float VIEWPORT_WIDTH = 720;
 	public static float VIEWPORT_HEIGHT = 1280;
 
+	public boolean SHOW_INTRO = false;
+
 	@Override
 	public void create() {
-		OrthographicCamera camera = new OrthographicCamera();
-		camera.setToOrtho(true, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+		super.create();
+
+		VIEWPORT_WIDTH = Gdx.graphics.getWidth();
+		VIEWPORT_HEIGHT = Gdx.graphics.getHeight();
+
+		defaultStyleSheet = new DefaultStylesheet();
+		GameModeManager.setStylesheet(defaultStyleSheet);
+
+		createCamera();
+		createGameStage();
+		createTestGameMode();
+		loadResources();
+
+		if(SHOW_INTRO) {
+			showIntro();
+		}
+		else {
+			showLevelSelect();
+			//showGame();
+		}
+
+		batch = new SpriteBatch();
+		Gdx.input.setInputProcessor(gameStage);
+	}
+
+	private void createCamera(){
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+	}
+
+	private void createGameStage(){
 		//TODO: choose best viewport..
 		FitViewport viewport = new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, camera);
 		gameStage = new Stage(viewport);
+	}
 
+	private void createTestGameMode(){
 		ArrayList<Color> colorList = new ArrayList<Color>();
 		colorList.add(Color.RED);
 		colorList.add(Color.GREEN);
 		colorList.add(Color.BLUE);
 		colorList.add(Color.BROWN);
-		gameMode = new DefaultGameMode(colorList, Color.RED);
-		gameMode.addGameListener(this);
+		currentGameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 1);
+		currentGameMode.addGameListener(this);
+	}
 
-//		/**
-//		 * TEST NEW (anonymous) GAMEMODE!
-//         * you have to tap 10 fields to win.
-//		 */
-//        gameMode = new GameMode() {
-//
-//            int counter = 0;
-//            GameField field = new GameField(new DefaultStylesheet());
-//            GameListener listener;
-//
-//            @Override
-//            public void create() {
-//                field.fill(Color.GREEN);
-//                field.addGameFieldListener(this);
-//            }
-//
-//            @Override
-//            public void addGameListener(GameListener listener) {
-//                this.listener = listener;
-//            }
-//
-//            @Override
-//            public GameField getGameField() {
-//                return field;
-//            }
-//
-//            @Override
-//            public boolean checkGameEndCondition() {
-//                return counter == 10;
-//            }
-//
-//            @Override
-//            public void handleFieldTap(int x, int y) {
-//                counter++;
-//				HashMap<Color, Color> map = new HashMap<Color, Color>();
-//				map.put(Color.GREEN, Color.RED);
-//				map.put(Color.RED, Color.GREEN);
-//				field.shuffle(new GameField.ChangePattern(new int[][]{{0, 0}}), map, 1000000);
-//                if(checkGameEndCondition()) listener.gameFinished();
-//            }
-//        };
-//		gameMode.addGameListener(this);
-//		gameMode.create();
-//		/**
-//		 * TEST end
-//		 */
-
-		loadResources();
-//
+	private void showIntro(){
 		final IntroViewContext introViewContext = new IntroViewContext(defaultFont);
-		introViewContext.setSubViewListener(new ViewContextListener() {
+		introViewContext.addViewContextListener(new ViewContextListener() {
 			@Override
 			public void onCreate() {
 
@@ -107,23 +102,45 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 			@Override
 			public void onDispose() {
-				gameStage.addActor(new GuiViewContext(gameMode.getGameField().getStylesheet()));
-				gameStage.addActor(gameMode.getGameField());
-				introViewContext.addAction(Actions.removeActor());
+				showLevelSelect();
 			}
 		});
 		gameStage.addActor(introViewContext);
+	}
 
-		batch = new SpriteBatch();
-		Gdx.input.setInputProcessor(gameStage);
+	private void showLevelSelect(){
+		gameStage.addActor(new GuiViewContext(currentGameMode.getGameField().getStylesheet()));
+		LevelSelectContext context = new LevelSelectContext(defaultFont);
+		context.addLevelSelectListener(new LevelSelectListener() {
+			@Override
+			public void levelSelected(int level) {
+				context.remove();
+				showGame();
+			}
+
+			@Override
+			public void onCreate() {
+
+			}
+
+			@Override
+			public void onDispose() {
+
+			}
+		});
+		gameStage.addActor(context);
+	}
+
+	private void showGame(){
+		gameStage.addActor(currentGameMode.getGameField());
 	}
 
 	private void loadResources(){
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 70;
-		parameter.minFilter = Texture.TextureFilter.Linear;
-		parameter.magFilter = Texture.TextureFilter.Linear;
-		parameter.flip = true;
+		parameter.minFilter = Texture.TextureFilter.Nearest;
+		parameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+		parameter.flip = false;
 		parameter.color = Color.WHITE;
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Minimoon.ttf"));
 		defaultFont = generator.generateFont(parameter);
@@ -132,31 +149,44 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	@Override
 	public void gameFinished() {
-		Gdx.app.log("FINISH!", "PS: you are a noob.");
-		gameMode.getGameField().addAction(Actions.moveBy(0, 1000, 1f, Interpolation.fade));
+		GameField gameField = currentGameMode.getGameField();
+		Action gameFieldRemoveAnimation = Actions.parallel(
+				Actions.sequence(
+						Actions.scaleTo(0, 1, 1, Interpolation.pow3In),
+						Actions.scaleTo(1, 1, 1, Interpolation.pow3Out)
+				),
+				Actions.sequence(
+						Actions.moveBy(gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3In),
+						Actions.moveBy(-1 * gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3Out)
+				),
+				Actions.alpha(0, 2, Interpolation.fade)
+		);
+		gameField.addAction(Actions.sequence(gameFieldRemoveAnimation, new Action() {
+			@Override
+			public boolean act(float delta) {
+				gameField.remove();
+				showLevelSelect();
+				return true;
+			}
+		}));
+
 	}
 
 
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		Gdx.gl.glClearDepthf(1.0f);
-		Gdx.gl.glClearStencil(0);
-
-		Gdx.gl.glClear(
-			GL20.GL_COLOR_BUFFER_BIT |
-			GL20.GL_DEPTH_BUFFER_BIT |
-			GL20.GL_STENCIL_BUFFER_BIT
-		);
-
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameStage.act();
 		gameStage.draw();
 	}
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		defaultFont.dispose();
-//		gameStage.dispose(); // ?
 		batch.dispose();
+		gameStage.dispose();
+		defaultStyleSheet.dispose();
 	}
 }

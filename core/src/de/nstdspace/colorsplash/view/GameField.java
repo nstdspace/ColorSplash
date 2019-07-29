@@ -1,6 +1,5 @@
 package de.nstdspace.colorsplash.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -15,7 +14,9 @@ import de.nstdspace.colorsplash.ColorSplashGame;
 
 public class GameField extends Group {
 
-    private float boardSize = ColorSplashGame.VIEWPORT_WIDTH * 0.8f;
+    public static final float RELATIVE_BOARD_WIDTH = 0.8f;
+
+    private float boardSize = ColorSplashGame.VIEWPORT_WIDTH * RELATIVE_BOARD_WIDTH;
     private int gridSize = 5;
     private float boxSize = boardSize / gridSize;
 
@@ -63,21 +64,17 @@ public class GameField extends Group {
         }
     }
 
+    public void changeColors(DefaultColorBox box, ChangePattern pattern, HashMap<Color, Color> colorSwitchMap){
+        changeColors(box.fieldPositionX, box.fieldPositionY, pattern, colorSwitchMap);
+    }
+
     public void changeColors(int x, int y, ChangePattern pattern, HashMap<Color, Color> colorSwitchMap){
         for(int dir[] : pattern.getAffectedDirections()){
-            int arrayX = x + dir[0], arrayY = y + dir[1];
+            int arrayX = x + dir[0];
+            int arrayY = y + dir[1];
             if(arrayX >= 0 && arrayX < boxGrid.length && arrayY >= 0 && arrayY < boxGrid.length){
                 boxGrid[arrayY][arrayX].setColor(colorSwitchMap.get(boxGrid[arrayY][arrayX].getGameColor()));
             }
-        }
-    }
-
-    public void shuffle(ChangePattern pattern, HashMap<Color, Color> colorSwitchMap, int count){
-        Random random = new Random();
-        for(int i = 0; i < count; i++){
-            int y = random.nextInt(boxGrid.length);
-            int x = random.nextInt(boxGrid[y].length);
-            changeColors(y, x, pattern, colorSwitchMap);
         }
     }
 
@@ -118,6 +115,14 @@ public class GameField extends Group {
 
     public DefaultColorBox getColorBox(int x, int y){
         return boxGrid[y][x];
+    }
+
+    public int getGridSize(){
+        return gridSize;
+    }
+
+    public float getBoardSize(){
+        return boardSize;
     }
 
     /**

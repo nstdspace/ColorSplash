@@ -1,4 +1,4 @@
-package de.nstdspace.colorsplash.view.subftrs;
+package de.nstdspace.colorsplash.view.context;
 
 public interface ViewContextListener {
 
