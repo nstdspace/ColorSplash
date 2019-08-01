@@ -56,7 +56,6 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 		createCamera();
 		createGameStage();
-		createTestGameMode();
 		loadResources();
 
 		if(SHOW_INTRO) {
@@ -82,16 +81,6 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		gameStage = new Stage(viewport);
 	}
 
-	private void createTestGameMode(){
-		ArrayList<Color> colorList = new ArrayList<Color>();
-		colorList.add(Color.RED);
-		colorList.add(Color.GREEN);
-		colorList.add(Color.BLUE);
-		colorList.add(Color.BROWN);
-		currentGameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 1);
-		currentGameMode.addGameListener(this);
-	}
-
 	private void showIntro(){
 		final IntroViewContext introViewContext = new IntroViewContext(defaultFont);
 		introViewContext.addViewContextListener(new ViewContextListener() {
@@ -109,7 +98,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void showLevelSelect(){
-		gameStage.addActor(new GuiViewContext(currentGameMode.getGameField().getStylesheet()));
+		gameStage.addActor(new GuiViewContext(defaultStyleSheet));
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener(new LevelSelectListener() {
 			@Override
@@ -133,7 +122,13 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void initLevel(int pack, int level){
-
+		ArrayList<Color> colorList = new ArrayList<Color>();
+		colorList.add(Color.RED);
+		colorList.add(Color.GREEN);
+		colorList.add(Color.BLUE);
+		colorList.add(Color.BROWN);
+		currentGameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 1);
+		currentGameMode.addGameListener(this);
 	}
 
 	private void showGame(){
