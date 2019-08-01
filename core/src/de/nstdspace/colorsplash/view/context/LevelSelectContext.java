@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import de.nstdspace.colorsplash.ColorSplashGame;
-import de.nstdspace.colorsplash.view.ResourceTools;
 import de.nstdspace.colorsplash.view.TextActor;
 
 public class LevelSelectContext extends ViewContext {

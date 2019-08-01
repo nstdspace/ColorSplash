@@ -113,8 +113,9 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener(new LevelSelectListener() {
 			@Override
-			public void levelSelected(int level) {
+			public void levelSelected(int pack, int level) {
 				context.remove();
+				initLevel(pack, level);
 				showGame();
 			}
 
@@ -129,6 +130,10 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 			}
 		});
 		gameStage.addActor(context);
+	}
+
+	private void initLevel(int pack, int level){
+
 	}
 
 	private void showGame(){
