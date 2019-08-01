@@ -1,4 +1,5 @@
-package de.nstdspace.colorsplash.view;
+package de.nstdspace.colorsplash.view.animation;
 
 public class AnimationTools {
+
 }
