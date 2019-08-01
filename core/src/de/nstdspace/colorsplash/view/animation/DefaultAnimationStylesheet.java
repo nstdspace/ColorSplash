@@ -13,7 +13,7 @@ public class DefaultAnimationStylesheet implements AnimationStylesheet<Animation
     @Override
     public Action provideAnimation(AnimationID id, Object... data) {
         if(id == DISMISS_GAMEFIELD){
-            
+
         }
         return null;
     }

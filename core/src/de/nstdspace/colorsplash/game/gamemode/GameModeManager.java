@@ -29,8 +29,8 @@ public class GameModeManager {
         gameMode.init();
     }
 
-    public static GameMode1 enrollGameMode1(ArrayList<Color> colors, Color gameEndColor, int shuffleCount) {
-        GameMode1 gameMode = new GameMode1(colors, gameEndColor, shuffleCount);
+    public static GameModeLevel1_1 enrollGameMode1(ArrayList<Color> colors, Color gameEndColor, int shuffleCount) {
+        GameModeLevel1_1 gameMode = new GameModeLevel1_1(colors, gameEndColor, shuffleCount);
         enrollGameMode(gameMode);
         return gameMode;
     }

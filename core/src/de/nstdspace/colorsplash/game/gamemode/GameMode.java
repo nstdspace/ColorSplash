@@ -12,5 +12,6 @@ public interface GameMode extends GameFieldListener {
     void createGameField(Stylesheet stylesheet);
     void init();
     void addGameListener(GameListener listener);
+    void makeInitialGameFieldAppearance();
     GameField getGameField();
 }

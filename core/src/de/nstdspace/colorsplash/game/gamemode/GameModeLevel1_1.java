@@ -9,14 +9,14 @@ import java.util.HashMap;
 import de.nstdspace.colorsplash.view.DefaultColorBox;
 import de.nstdspace.colorsplash.view.GameField;
 
-public class GameMode1 extends DefaultGameMode {
+public class GameModeLevel1_1 extends DefaultGameMode {
 
     private Color gameEndFillColor;
     private ArrayList<Color> colors;
     private HashMap<Color, Color> colorSwitchMap;
 
-    public GameMode1(ArrayList<Color> colors, Color gameEndFillColor, int shuffleCount){
-        super(shuffleCount);
+    public GameModeLevel1_1(ArrayList<Color> colors, Color gameEndFillColor, int shuffleCount){
+        super(gameEndFillColor, shuffleCount);
         this.colors = colors;
         this.gameEndFillColor = gameEndFillColor;
     }
@@ -33,23 +33,6 @@ public class GameMode1 extends DefaultGameMode {
             else colorSwitchMap.put(colors.get(i), colors.get(i + 1));
         }
         Gdx.app.log("colorSwitchMap: ", colorSwitchMap.toString());
-    }
-
-    private GameFieldPattern filledMonochromePattern = new GameFieldPattern() {
-        @Override
-        public boolean checkBox(DefaultColorBox box) {
-            return box.getGameColor().equals(gameEndFillColor);
-        }
-    };
-
-    @Override
-    public GameFieldPattern getGameEndPattern() {
-        return filledMonochromePattern;
-    }
-
-    @Override
-    public void restoreInitialGameFieldAppearance() {
-        getGameField().fill(gameEndFillColor);
     }
 
     @Override

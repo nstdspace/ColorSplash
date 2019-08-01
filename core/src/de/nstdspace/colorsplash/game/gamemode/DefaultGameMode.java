@@ -1,5 +1,6 @@
 package de.nstdspace.colorsplash.game.gamemode;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
@@ -8,17 +9,27 @@ import java.util.Random;
 
 import de.nstdspace.colorsplash.game.GameListener;
 import de.nstdspace.colorsplash.view.DefaultColorBox;
-import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
 import de.nstdspace.colorsplash.view.Stylesheet;
 
-public abstract class DefaultGameMode implements GameMode {
+/**
+ * default game mode with monochrome end condition
+ * and simple "around the blcok" - change pattern
+ */
+
+public abstract class DefaultGameMode implements MonochromeGameMode {
 
     private ArrayList<GameListener> gameListener;
     private GameField gameField;
     private int shuffleCount;
+    private Color color;
 
-    public DefaultGameMode(int shuffleCount){
+    interface GameFieldPattern {
+        boolean checkBox(DefaultColorBox box);
+    }
+
+    public DefaultGameMode(Color color, int shuffleCount){
+        this.color = color;
         this.gameListener = new ArrayList<>();
         this.shuffleCount = shuffleCount;
     }
@@ -37,14 +48,18 @@ public abstract class DefaultGameMode implements GameMode {
         }
     }
 
-    public abstract void restoreInitialGameFieldAppearance();
+    public void makeInitialGameFieldAppearance(){
 
-    public abstract GameFieldPattern getGameEndPattern();
+    }
+
+    public GameFieldPattern getGameEndPattern(){
+        return filledMonochromePattern;
+    }
 
     public void createGameField(Stylesheet stylesheet){
         gameField = new GameField(stylesheet);
         gameField.addGameFieldListener(this);
-        restoreInitialGameFieldAppearance();
+        makeInitialGameFieldAppearance();
     }
 
     public void animateTappedField(DefaultColorBox box){
@@ -93,7 +108,20 @@ public abstract class DefaultGameMode implements GameMode {
         return true;
     }
 
-    interface GameFieldPattern {
-        boolean checkBox(DefaultColorBox box);
+    private GameFieldPattern filledMonochromePattern = new GameFieldPattern() {
+        @Override
+        public boolean checkBox(DefaultColorBox box) {
+            return box.getGameColor().equals(color);
+        }
+    };
+
+    @Override
+    public Color getInitialColor() {
+        return color;
+    }
+
+    @Override
+    public Color getTargetColor() {
+        return color;
     }
 }
