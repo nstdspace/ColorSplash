@@ -30,6 +30,8 @@ public class GameField extends Group {
     public GameField(Stylesheet stylesheet){
         this.stylesheet = stylesheet;
         setPosition((ColorSplashGame.VIEWPORT_WIDTH - boardSize) / 2, (ColorSplashGame.VIEWPORT_HEIGHT - boardSize) / 2);
+        setSize(boardSize, boardSize);
+        setOrigin(0.5f * boardSize, 0.5f * boardSize);
         create();
     }
 

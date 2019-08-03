@@ -48,10 +48,10 @@ public class GuiViewContext extends ViewContext {
         buttonBarHeight = ColorSplashGame.VIEWPORT_HEIGHT * RELATIVE_BUTTON_BAR_HEIGHT;
 
         //TODO: move this to stylesheet
-        backgroundTint = new Color(220 / 255.0f, 83 / 255.0f, 83 / 255.0f, 1.0f);
+        backgroundTint = new Color(255.0f / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f);
     }
 
-    private Color backgroundTint;
+    public Color backgroundTint;
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

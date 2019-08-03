@@ -21,6 +21,7 @@ import de.nstdspace.colorsplash.game.GameListener;
 
 import de.nstdspace.colorsplash.game.gamemode.GameMode;
 import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
+import de.nstdspace.colorsplash.view.AnimationTools;
 import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
 import de.nstdspace.colorsplash.view.context.LevelSelectContext;
@@ -161,7 +162,13 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 				),
 				Actions.alpha(0, 2, Interpolation.fade)
 		);
-		gameField.addAction(Actions.sequence(gameFieldRemoveAnimation, new Action() {
+
+		gameField.addAction(Actions.sequence(
+				Actions.parallel(
+					AnimationTools.yFlipAction(gameField, 2.0f),
+					Actions.alpha(0, 2.0f, Interpolation.linear)
+				),
+				new Action() {
 			@Override
 			public boolean act(float delta) {
 				gameField.remove();

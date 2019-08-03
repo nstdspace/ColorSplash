@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import de.nstdspace.colorsplash.ColorSplashGame;
+import de.nstdspace.colorsplash.view.AnimationTools;
 import de.nstdspace.colorsplash.view.ResourceTools;
 import de.nstdspace.colorsplash.view.TextActor;
 
@@ -56,7 +57,8 @@ public class LevelSelectContext extends ViewContext {
 //        test.setSize(groupWidth, groupHeight);
 //        h.addActor(test);
 
-        Color buttonTint = new Color(249 / 255.0f, 224 / 255.0f, 14 / 255.0f, 1.0f);
+        // TODO: move  to stylesheet?
+        Color buttonTint = new Color(255 / 255.0f, 150 / 255.0f, 50 / 255.0f, 1.0f);
 
         for(int i = 0; i < 35; i++){
             Image image = new Image();
@@ -71,14 +73,7 @@ public class LevelSelectContext extends ViewContext {
             image.addListener((event) -> {
                 if(((InputEvent) event).getType() == InputEvent.Type.touchDown){
                     image.addAction(Actions.sequence(
-                            new Action() {
-                                @Override
-                                public boolean act(float delta) {
-                                    image.setColor(Color.BLUE);
-                                    return true;
-                                }
-                            },
-                            Actions.scaleTo(4f, 4f, 2f, Interpolation.elasticOut),
+                            AnimationTools.xFlipAction(image, 1.0f),
                             new Action() {
                                 @Override
                                 public boolean act(float delta) {
