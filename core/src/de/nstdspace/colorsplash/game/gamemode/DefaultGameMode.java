@@ -49,7 +49,7 @@ public abstract class DefaultGameMode implements MonochromeGameMode {
     }
 
     public void makeInitialGameFieldAppearance(){
-
+        gameField.iterateBoxGrid((b) -> b.setColor(color));
     }
 
     public GameFieldPattern getGameEndPattern(){

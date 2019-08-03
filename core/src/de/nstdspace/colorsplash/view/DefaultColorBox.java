@@ -22,6 +22,7 @@ public class DefaultColorBox extends Image {
     public void setColor(Color color) {
         addAction(Actions.color(color, 0.3f));
         gameColor = color;
+        //super.setColor(color);
     }
 
     public Color getGameColor(){

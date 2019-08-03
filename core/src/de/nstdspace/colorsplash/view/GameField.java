@@ -103,7 +103,11 @@ public class GameField extends Group {
     }
 
     public interface BoxAction {
-        boolean filter(DefaultColorBox box);
+
+        default boolean filter(DefaultColorBox box){
+            return true;
+        }
+
         void apply(DefaultColorBox box);
     }
 
@@ -138,7 +142,7 @@ public class GameField extends Group {
 
         public static ChangePattern CROSS_SURROUND = new ChangePattern(new int[][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}});
 
-        p#rivate int affectedDirections[][];
+        private int affectedDirections[][];
 
         public ChangePattern(int affectedDirections[][]){
             this.affectedDirections = affectedDirections;
