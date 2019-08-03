@@ -57,8 +57,10 @@ public class LevelSelectContext extends ViewContext {
 //        test.setSize(groupWidth, groupHeight);
 //        h.addActor(test);
 
-        // TODO: move  to stylesheet?
-        Color buttonTint = new Color(255 / 255.0f, 150 / 255.0f, 50 / 255.0f, 1.0f);
+
+        Color buttonTint = new Color(249 / 255.0f, 224 / 255.0f, 14 / 255.0f, 1.0f);
+        //TODO: implement pack selection
+        int packId = 1;
 
         for(int i = 0; i < 35; i++){
             Image image = new Image();
@@ -77,7 +79,7 @@ public class LevelSelectContext extends ViewContext {
                             new Action() {
                                 @Override
                                 public boolean act(float delta) {
-                                    fireEvent((l) -> ((LevelSelectListener) l).levelSelected(levelId));
+                                    fireEvent((l) -> ((LevelSelectListener) l).levelSelected(packId, levelId));
                                     return true;
                                 }
                             }
