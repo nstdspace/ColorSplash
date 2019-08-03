@@ -136,7 +136,7 @@ public class GameField extends Group {
 
         public static ChangePattern CROSS_SURROUND = new ChangePattern(new int[][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}});
 
-        private int affectedDirections[][];
+        p#rivate int affectedDirections[][];
 
         public ChangePattern(int affectedDirections[][]){
             this.affectedDirections = affectedDirections;
