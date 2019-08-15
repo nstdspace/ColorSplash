@@ -1,20 +1,19 @@
 package de.nstdspace.colorsplash.view.animation;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import static de.nstdspace.colorsplash.view.animation.DefaultAnimationStylesheet.AnimationID;
-import static de.nstdspace.colorsplash.view.animation.DefaultAnimationStylesheet.AnimationID.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
-public class DefaultAnimationStylesheet implements AnimationStylesheet<AnimationID> {
+import de.nstdspace.colorsplash.view.AnimationTools;
+import de.nstdspace.colorsplash.view.GameField;
 
-    enum AnimationID {
-        DISMISS_GAMEFIELD
-    }
+public class DefaultAnimationStylesheet implements AnimationStylesheet {
 
     @Override
-    public Action provideAnimation(AnimationID id, Object... data) {
-        if(id == DISMISS_GAMEFIELD){
-
-        }
-        return null;
+    public Action provideGameFieldDismissAnimation(GameField field) {
+        return Actions.parallel(
+                AnimationTools.yFlipAction(field, 2.0f),
+                Actions.alpha(0, 2.0f, Interpolation.linear)
+        );
     }
 }

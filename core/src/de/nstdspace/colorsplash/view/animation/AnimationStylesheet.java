@@ -2,7 +2,9 @@ package de.nstdspace.colorsplash.view.animation;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-public interface AnimationStylesheet<I> {
+import de.nstdspace.colorsplash.view.GameField;
 
-    Action provideAnimation(I id, Object... data);
+public interface AnimationStylesheet {
+
+    Action provideGameFieldDismissAnimation(GameField field);
 }

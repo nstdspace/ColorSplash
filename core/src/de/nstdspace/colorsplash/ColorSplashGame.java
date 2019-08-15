@@ -150,20 +150,18 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	@Override
 	public void gameFinished() {
 		GameField gameField = currentGameMode.getGameField();
-		gameField.addAction(Actions.sequence(
-				Actions.parallel(
-					AnimationTools.yFlipAction(gameField, 2.0f),
-					Actions.alpha(0, 2.0f, Interpolation.linear)
-				),
-				new Action() {
+		Action afterDismissAction = new Action() {
 			@Override
 			public boolean act(float delta) {
 				gameField.remove();
 				showLevelSelect();
 				return true;
 			}
-		}));
-
+		};
+		gameField.addAction(Actions.sequence(
+				defaultStyleSheet.getAnimationStylesheet().provideGameFieldDismissAnimation(gameField),
+				afterDismissAction
+		));
 	}
 
 
