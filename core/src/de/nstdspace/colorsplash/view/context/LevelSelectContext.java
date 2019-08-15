@@ -69,7 +69,7 @@ public class LevelSelectContext extends ViewContext {
         //TODO: implement pack selection
         int packId = 1;
 
-        for(int i = 34; i >= 0; i--){
+        for(int i = 0; i < 35; i++){
             Image image = new Image();
             if(i < 5){
                 image.setDrawable(drI[i]);
@@ -79,7 +79,7 @@ public class LevelSelectContext extends ViewContext {
             }
             image.setSize(buttonSize, buttonSize);
             float buttonX = (i % 5) * (buttonSize + buttonGapSize);
-            float buttonY = ((i / 5) * (buttonSize + buttonGapSize));
+            float buttonY = groupHeight - buttonSize - ((i / 5) * (buttonSize + buttonGapSize));
             image.setPosition(buttonX, buttonY);
             int levelId = i;
             image.setColor(buttonTint);
