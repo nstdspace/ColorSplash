@@ -26,7 +26,7 @@ public class DefaultStylesheet implements Stylesheet {
     private void createTextures(){
         backgroundTexture = ResourceTools.loadTexture("bgtest2.png");
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        colorBoxTextureRegionDrawable = new TextureRegionDrawable(new TextureRegion(ResourceTools.loadTexture("colorbox.png")));
+        colorBoxTextureRegionDrawable = new TextureRegionDrawable(new TextureRegion(ResourceTools.loadTexture("colorbox_light.png")));
     }
 
     @Override
