@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
@@ -55,6 +56,9 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 		createCamera();
 		createGameStage();
+
+		createGuiContext();
+
 		loadResources();
 
 		if(SHOW_INTRO) {
@@ -98,9 +102,21 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void showGuiContext(){
+		gameStage.addActor(guiViewContext);
+	}
+
+	private void createGuiContext(){
 		guiViewContext = new GuiViewContext(defaultStyleSheet);
 		guiViewContext.setColor(Color.WHITE);
-		gameStage.addActor(guiViewContext);
+
+		guiViewContext.registerButton(GuiViewContext.GuiMode.INGAME, (event -> {
+			if(((InputEvent) event).getType() == InputEvent.Type.touchDown){
+				currentGameMode.getGameField().iterateBoxGrid((box -> {
+					box.addAction(Actions.rotateBy(90, 1f, Interpolation.smooth));
+				}));
+			}
+			return true;
+		}));
 	}
 
 	//TODO: move this to gui context

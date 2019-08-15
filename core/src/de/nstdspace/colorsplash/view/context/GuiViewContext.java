@@ -67,7 +67,7 @@ public class GuiViewContext extends ViewContext {
         }
     }
 
-    private void registerButton(GuiMode mode, EventListener listener){
+    public void registerButton(GuiMode mode, EventListener listener){
         Actor button = createButton(listener);
         buttonMap.get(mode).add(button);
     }
