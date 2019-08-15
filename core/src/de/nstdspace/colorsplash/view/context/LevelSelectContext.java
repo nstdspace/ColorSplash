@@ -33,8 +33,8 @@ public class LevelSelectContext extends ViewContext {
 
     private void createLevelButtons(){
         // TODO: this has to come from stylesheet or so
-        levelAtlas = new Texture(Gdx.files.internal("level_num_atlas.png"));
-        TextureRegion region0 = new TextureRegion(levelAtlas, 0, 0, 32, 32);
+        levelAtlas = new Texture(Gdx.files.internal("level_numbers.png"));
+        TextureRegion region0 = new TextureRegion(levelAtlas, 0, 0, 64, 64);
         TextureRegionDrawable dr0 = new TextureRegionDrawable(region0);
         // TODO: remove hardcoding?
         float buttonRows = 7;
@@ -56,7 +56,7 @@ public class LevelSelectContext extends ViewContext {
 //        h.addActor(test);
 
 
-        Color buttonTint = new Color(249 / 255.0f, 224 / 255.0f, 14 / 255.0f, 1.0f);
+        Color buttonTint = Color.WHITE;
         //TODO: implement pack selection
         int packId = 1;
 

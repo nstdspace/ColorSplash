@@ -14,8 +14,7 @@ public class LevelManager {
         GameMode gameMode = null;
         if (pack == 1) {
             if (level == 0) {
-                gameMode = GameModeManager.enrollGameMode1(Arrays.asList(Color.RED, Color.GREEN, Color.BLUE, Color.BROWN), Color.RED, 4);
-                //guiViewContext.addAction(Actions.color(Color.RED, 2f));
+                gameMode = GameModeManager.enrollGameMode1(Arrays.asList(Color.RED, Color.GREEN, Color.BLUE, Color.BROWN), Color.RED, 3);
             }
             if (level == 1) {
                 gameMode = GameModeManager.enrollGameMode1(Arrays.asList(Color.RED, Color.GREEN, Color.BLUE, Color.BROWN), Color.RED, 20);

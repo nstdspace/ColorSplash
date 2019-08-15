@@ -13,22 +13,19 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import java.util.Arrays;
 
 import de.nstdspace.colorsplash.game.GameListener;
 import de.nstdspace.colorsplash.game.LevelManager;
 import de.nstdspace.colorsplash.game.gamemode.GameMode;
 import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
-import de.nstdspace.colorsplash.view.AnimationTools;
 import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
 import de.nstdspace.colorsplash.view.Stylesheet;
 import de.nstdspace.colorsplash.view.context.GuiViewContext;
 import de.nstdspace.colorsplash.view.context.IntroViewContext;
 import de.nstdspace.colorsplash.view.context.LevelSelectContext;
-import de.nstdspace.colorsplash.view.context.LevelSelectListener;
 import de.nstdspace.colorsplash.view.context.ViewContextListener;
 
 public class ColorSplashGame extends ApplicationAdapter implements GameListener {
@@ -102,12 +99,28 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	private void showGuiContext(){
 		guiViewContext = new GuiViewContext(defaultStyleSheet);
-		guiViewContext.setColor(Color.BLACK);
-		guiViewContext.addAction(Actions.color(new Color(255.0f / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f)));
+		guiViewContext.setColor(Color.WHITE);
+		makeGuiBackgroundGlimmer();
 		gameStage.addActor(guiViewContext);
 	}
 
+	//TODO: move this to gui context
+	Action glimmerAction;
+	private void makeGuiBackgroundGlimmer(){
+		Color backgroundChangeColors[] = new Color[]{
+				Color.GREEN, Color.RED, Color.BLUE, Color.PINK, Color.ORANGE
+		};
+		Action[] colorActions = new Action[backgroundChangeColors.length];
+		for (int i = 0; i < colorActions.length; i++){
+			colorActions[i] = Actions.color(backgroundChangeColors[i], 4f, Interpolation.sine);
+		}
+		glimmerAction = Actions.repeat(RepeatAction.FOREVER, Actions.sequence(colorActions));
+		//tguiViewContext.addAction(glimmerAction);
+	}
+
 	private void showLevelSelect(){
+		guiViewContext.addAction(glimmerAction);
+
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener((int pack, int level) -> {
 			context.remove();
@@ -123,6 +136,9 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void showGame(){
+		//TODO: move to gui context
+		guiViewContext.removeAction(glimmerAction);
+
 		gameStage.addActor(currentGameMode.getGameField());
 	}
 

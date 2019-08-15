@@ -29,11 +29,12 @@ public class GuiViewContext extends ViewContext {
         this.stylesheet = stylesheet;
         guiBackground = ResourceTools.createOneColoredTexture(new Color(0, 0, 0, 0.35f));
 
+
+        // stretch small background texture to screen size
         TextureData data = stylesheet.getBackgroundTexture().getTextureData();
         if(!data.isPrepared()){
             data.prepare();
         }
-
         Pixmap p0 = data.consumePixmap();
         Pixmap p1 = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
         p1.drawPixmap(p0, 0, 0, p0.getWidth(), p0.getHeight(), 0, 0, p1.getWidth(), p1.getHeight());
@@ -46,9 +47,6 @@ public class GuiViewContext extends ViewContext {
         //backgroundTextureRegion.setRegion(0, 0, ColorSplashGame.VIEWPORT_WIDTH, ColorSplashGame.VIEWPORT_HEIGHT);
 
         buttonBarHeight = ColorSplashGame.VIEWPORT_HEIGHT * RELATIVE_BUTTON_BAR_HEIGHT;
-
-        //TODO: move this to stylesheet
-        backgroundTint = new Color(255.0f / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f);
     }
 
     public Color backgroundTint;
