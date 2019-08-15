@@ -105,23 +105,10 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
         guiViewContext.addAction(Actions.color(new Color(255.0f / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f)));
         gameStage.addActor(guiViewContext);
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
-		context.addLevelSelectListener(new LevelSelectListener() {
-			@Override
-			public void levelSelected(int pack, int level) {
-				context.remove();
-				initLevel(pack, level);
-				showGame();
-			}
-
-			@Override
-			public void onCreate() {
-
-			}
-
-			@Override
-			public void onDispose() {
-
-			}
+		context.addLevelSelectListener((int pack, int level) -> {
+			context.remove();
+			initLevel(pack, level);
+			showGame();
 		});
 		gameStage.addActor(context);
 	}
