@@ -115,12 +115,15 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 			colorActions[i] = Actions.color(backgroundChangeColors[i], 4f, Interpolation.sine);
 		}
 		glimmerAction = Actions.repeat(RepeatAction.FOREVER, Actions.sequence(colorActions));
-		//tguiViewContext.addAction(glimmerAction);
+		guiViewContext.addAction(glimmerAction);
 	}
 
-	private void showLevelSelect(){
-		guiViewContext.addAction(glimmerAction);
+	private void stopGuiBackgroundGlimmer(){
+		guiViewContext.removeAction(glimmerAction);
+	}
 
+
+	private void showLevelSelect(){
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener((int pack, int level) -> {
 			context.remove();
@@ -137,8 +140,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 	private void showGame(){
 		//TODO: move to gui context
-		guiViewContext.removeAction(glimmerAction);
-
+		stopGuiBackgroundGlimmer();
 		gameStage.addActor(currentGameMode.getGameField());
 	}
 

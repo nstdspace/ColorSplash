@@ -34,7 +34,6 @@ public class GameModeLevel1_1 extends DefaultGameMode {
             if(i == colors.size() - 1) colorSwitchMap.put(colors.get(i), colors.get(0));
             else colorSwitchMap.put(colors.get(i), colors.get(i + 1));
         }
-        Gdx.app.log("colorSwitchMap: ", colorSwitchMap.toString());
     }
 
     @Override

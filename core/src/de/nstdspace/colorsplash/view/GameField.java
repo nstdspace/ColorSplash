@@ -81,8 +81,6 @@ public class GameField extends Group {
                 for(int i = 0; i < colorStep; i++){
                     currentColor = colorSwitchMap.get(currentColor);
                 }
-                Gdx.app.log("COLOR_CHANGE", "to.. " + currentColor);
-
                 boxGrid[arrayY][arrayX].setColor(currentColor);
             }
         }
