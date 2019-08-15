@@ -34,8 +34,16 @@ public class LevelSelectContext extends ViewContext {
     private void createLevelButtons(){
         // TODO: this has to come from stylesheet or so
         levelAtlas = new Texture(Gdx.files.internal("level_numbers.png"));
-        TextureRegion region0 = new TextureRegion(levelAtlas, 0, 0, 64, 64);
-        TextureRegionDrawable dr0 = new TextureRegionDrawable(region0);
+
+        TextureRegionDrawable drI[] = new TextureRegionDrawable[5];
+        for(int i = 0; i < drI.length; i++){
+            drI[i] = new TextureRegionDrawable(new TextureRegion(levelAtlas, 64 * (i + 1), 0, 64, 64));
+        }
+        TextureRegion regionLocked = new TextureRegion(levelAtlas, 0, 0, 64 ,64);
+        TextureRegionDrawable drLocked = new TextureRegionDrawable(regionLocked);
+
+        //TextureRegion region0 = new TextureRegion(levelAtlas, 64, 0, 64, 64);
+        //TextureRegionDrawable dr0 = new TextureRegionDrawable(region0);
         // TODO: remove hardcoding?
         float buttonRows = 7;
         float buttonCols = 5;
@@ -62,10 +70,15 @@ public class LevelSelectContext extends ViewContext {
 
         for(int i = 0; i < 35; i++){
             Image image = new Image();
-            image.setDrawable(dr0);
+            if(i < 5){
+                image.setDrawable(drI[i]);
+            }
+            else {
+                image.setDrawable(drLocked);
+            }
             image.setSize(buttonSize, buttonSize);
             float buttonX = (i % 5) * (buttonSize + buttonGapSize);
-            float buttonY = (i / 5) * (buttonSize + buttonGapSize);
+            float buttonY = groupHeight - ((i / 5) * (buttonSize + buttonGapSize));
             image.setPosition(buttonX, buttonY);
             int levelId = i;
             image.setColor(buttonTint);
