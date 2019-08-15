@@ -15,19 +15,19 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.nstdspace.colorsplash.game.GameListener;
-
+import de.nstdspace.colorsplash.game.LevelManager;
 import de.nstdspace.colorsplash.game.gamemode.GameMode;
 import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
 import de.nstdspace.colorsplash.view.AnimationTools;
 import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
-import de.nstdspace.colorsplash.view.context.LevelSelectContext;
 import de.nstdspace.colorsplash.view.Stylesheet;
 import de.nstdspace.colorsplash.view.context.GuiViewContext;
 import de.nstdspace.colorsplash.view.context.IntroViewContext;
+import de.nstdspace.colorsplash.view.context.LevelSelectContext;
 import de.nstdspace.colorsplash.view.context.LevelSelectListener;
 import de.nstdspace.colorsplash.view.context.ViewContextListener;
 
@@ -39,6 +39,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	private BitmapFont defaultFont;
 	private OrthographicCamera camera;
 	private Stylesheet defaultStyleSheet;
+    private GuiViewContext guiViewContext;
 
 	public static float VIEWPORT_WIDTH = 720;
 	public static float VIEWPORT_HEIGHT = 1280;
@@ -99,7 +100,10 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void showLevelSelect(){
-		gameStage.addActor(new GuiViewContext(defaultStyleSheet));
+        guiViewContext = new GuiViewContext(defaultStyleSheet);
+        guiViewContext.setColor(Color.BLACK);
+        guiViewContext.addAction(Actions.color(new Color(255.0f / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f)));
+        gameStage.addActor(guiViewContext);
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener(new LevelSelectListener() {
 			@Override
@@ -123,12 +127,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void initLevel(int pack, int level){
-		ArrayList<Color> colorList = new ArrayList<Color>();
-		colorList.add(Color.RED);
-		colorList.add(Color.GREEN);
-		colorList.add(Color.BLUE);
-		colorList.add(Color.BROWN);
-		currentGameMode = GameModeManager.enrollGameMode1(colorList, Color.RED, 1);
+        currentGameMode = LevelManager.initGameMode(pack, level);
 		currentGameMode.addGameListener(this);
 	}
 
@@ -151,18 +150,6 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	@Override
 	public void gameFinished() {
 		GameField gameField = currentGameMode.getGameField();
-		Action gameFieldRemoveAnimation = Actions.parallel(
-				Actions.sequence(
-						Actions.scaleTo(0, 1, 1, Interpolation.pow3In),
-						Actions.scaleTo(1, 1, 1, Interpolation.pow3Out)
-				),
-				Actions.sequence(
-						Actions.moveBy(gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3In),
-						Actions.moveBy(-1 * gameField.getBoardSize() * 0.5f, 0, 1, Interpolation.pow3Out)
-				),
-				Actions.alpha(0, 2, Interpolation.fade)
-		);
-
 		gameField.addAction(Actions.sequence(
 				Actions.parallel(
 					AnimationTools.yFlipAction(gameField, 2.0f),
