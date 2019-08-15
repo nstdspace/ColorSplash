@@ -10,7 +10,7 @@ import de.nstdspace.colorsplash.view.GameField;
 
 public class LevelManager {
 
-    public static GameMode initGamemode(int pack, int level){
+    public static GameMode initGameMode(int pack, int level){
         GameMode gameMode = null;
         if (pack == 1) {
             if (level == 0) {
