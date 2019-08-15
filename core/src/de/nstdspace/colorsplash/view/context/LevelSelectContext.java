@@ -70,11 +70,13 @@ public class LevelSelectContext extends ViewContext {
         int packId = 1;
 
         for(int i = 0; i < 35; i++){
+            boolean locked = false;
             Image image = new Image();
             if(i < 5){
                 image.setDrawable(drI[i]);
             }
             else {
+                locked = true;
                 image.setDrawable(drLocked);
             }
             image.setSize(buttonSize, buttonSize);
@@ -84,21 +86,23 @@ public class LevelSelectContext extends ViewContext {
             int levelId = i;
             image.setColor(buttonTint);
             image.setOrigin(buttonSize * 0.5f, buttonSize * 0.5f);
-            image.addListener((event) -> {
-                if(((InputEvent) event).getType() == InputEvent.Type.touchDown){
-                    image.addAction(Actions.sequence(
-                            AnimationTools.xFlipAction(image, 1.0f),
-                            new Action() {
-                                @Override
-                                public boolean act(float delta) {
-                                    fireEvent((l) -> ((LevelSelectListener) l).levelSelected(packId, levelId));
-                                    return true;
+            if(!locked){
+                image.addListener((event) -> {
+                    if(((InputEvent) event).getType() == InputEvent.Type.touchDown){
+                        image.addAction(Actions.sequence(
+                                AnimationTools.xFlipAction(image, 1.0f),
+                                new Action() {
+                                    @Override
+                                    public boolean act(float delta) {
+                                        fireEvent((l) -> ((LevelSelectListener) l).levelSelected(packId, levelId));
+                                        return true;
+                                    }
                                 }
-                            }
-                    ));
-                }
-                return true;
-            });
+                        ));
+                    }
+                    return true;
+                });
+            }
             h.addActor(image);
         }
         h.setSize(groupWidth, groupHeight);
