@@ -1,6 +1,5 @@
 package de.nstdspace.colorsplash.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import de.nstdspace.colorsplash.ColorSplashGame;
@@ -27,6 +25,8 @@ public class GameField extends Group {
     private GameFieldListener gameFieldListener;
 
     private Stylesheet stylesheet;
+
+    private boolean inputLocked = false;
 
     public GameField(Stylesheet stylesheet){
         this.stylesheet = stylesheet;
@@ -48,7 +48,7 @@ public class GameField extends Group {
     private void create(){
         for(int i = 0; i < gridSize; i++){
             for(int j = 0; j < gridSize; j++){
-                final DefaultColorBox box = new DefaultColorBox(i, j, stylesheet.getColorBoxTexture());
+                final DefaultColorBox box = new DefaultColorBox(i, j, stylesheet.getColorBoxDrawable());
                 box.setColor(Color.BLACK);
                 box.setSize(boxSize, boxSize);
                 box.setOrigin(box.getWidth() * 0.5f, box.getHeight() * 0.5f);
@@ -56,8 +56,11 @@ public class GameField extends Group {
                 box.addListener(new EventListener(){
                     @Override
                     public boolean handle(Event event){
-                        if(gameFieldListener != null && ((InputEvent) event).getType() == InputEvent.Type.touchDown)
-                            gameFieldListener.handleFieldTap(box.fieldPositionX, box.fieldPositionY);
+                        if(gameFieldListener != null && ((InputEvent) event).getType() == InputEvent.Type.touchDown){
+                            if(!inputLocked){
+                                gameFieldListener.handleFieldTap(box.fieldPositionX, box.fieldPositionY);
+                            }
+                        }
                         return false;
                     }
                 });
@@ -65,6 +68,14 @@ public class GameField extends Group {
                 boxGrid[j][i] = box;
             }
         }
+    }
+
+    public void lockInput(){
+        this.inputLocked = true;
+    }
+
+    public void unlockInput(){
+        this.inputLocked = false;
     }
 
     public void changeColors(DefaultColorBox box, ChangePattern pattern, Map<Color, Color> colorSwitchMap){

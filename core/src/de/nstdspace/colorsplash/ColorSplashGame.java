@@ -20,7 +20,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.nstdspace.colorsplash.game.GameListener;
 import de.nstdspace.colorsplash.game.LevelManager;
 import de.nstdspace.colorsplash.game.gamemode.GameMode;
+import de.nstdspace.colorsplash.game.gamemode.GameModeLevel1_1;
 import de.nstdspace.colorsplash.game.gamemode.GameModeManager;
+import de.nstdspace.colorsplash.view.AnimationTools;
 import de.nstdspace.colorsplash.view.DefaultStylesheet;
 import de.nstdspace.colorsplash.view.GameField;
 import de.nstdspace.colorsplash.view.Stylesheet;
@@ -110,10 +112,28 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		guiViewContext.setColor(Color.WHITE);
 
 		guiViewContext.registerButton(GuiViewContext.GuiMode.INGAME, (event -> {
+			//TODO: make this work for every target condition
 			if(((InputEvent) event).getType() == InputEvent.Type.touchDown){
-				currentGameMode.getGameField().iterateBoxGrid((box -> {
-					box.addAction(Actions.rotateBy(90, 1f, Interpolation.smooth));
-				}));
+				currentGameMode.getGameField().lockInput();
+				currentGameMode.getGameField().iterateBoxGrid((box ->
+					box.addAction(
+						Actions.parallel(
+							Actions.scaleTo(0.9f, 0.9f, 0.5f, Interpolation.pow2),
+							Actions.color(((GameModeLevel1_1) currentGameMode).getTargetColor(), 0.5f, Interpolation.pow2)
+						)
+					)
+				));
+			}
+			else if(((InputEvent) event).getType() == InputEvent.Type.touchUp){
+				currentGameMode.getGameField().unlockInput();
+				currentGameMode.getGameField().iterateBoxGrid((box ->
+					box.addAction(
+						Actions.parallel(
+							Actions.scaleTo(1f, 1f, 0.8f, Interpolation.pow2),
+							Actions.color(box.getGameColor(), 0.5f, Interpolation.pow2)
+						)
+					)
+				));
 			}
 			return true;
 		}));
@@ -139,7 +159,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 
 	private void showLevelSelect(){
-		guiViewContext.currentMode = GuiViewContext.GuiMode.LEVEL_SELECT;
+		guiViewContext.switchMode(GuiViewContext.GuiMode.LEVEL_SELECT);
 		makeGuiBackgroundGlimmer();
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener((int pack, int level) -> {
@@ -178,6 +198,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	@Override
 	public void gameFinished() {
 		GameField gameField = currentGameMode.getGameField();
+		gameField.lockInput();
 		Action afterDismissAction = new Action() {
 			@Override
 			public boolean act(float delta) {

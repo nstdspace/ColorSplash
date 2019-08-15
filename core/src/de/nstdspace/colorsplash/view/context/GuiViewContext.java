@@ -1,5 +1,6 @@
 package de.nstdspace.colorsplash.view.context;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -65,6 +66,7 @@ public class GuiViewContext extends ViewContext {
         for(Actor actor : buttonMap.get(mode)){
             addActor(actor);
         }
+        currentMode = mode;
     }
 
     public void registerButton(GuiMode mode, EventListener listener){
@@ -74,11 +76,11 @@ public class GuiViewContext extends ViewContext {
 
     private Actor createButton(EventListener listener){
         Image button = new Image();
-        button.setDrawable(new TextureRegionDrawable(new TextureRegion(ResourceTools.createOneColoredTexture(Color.YELLOW))));
-        float buttonSize = 0.8f * RELATIVE_BUTTON_BAR_HEIGHT;
+        button.setDrawable(stylesheet.getShowTargetButtonDrawable());
+        float buttonSize = 0.7f * buttonBarHeight;
         button.setSize(buttonSize, buttonSize);
         //TODO: fix position
-        button.setPosition(0.1f * RELATIVE_BUTTON_BAR_HEIGHT, 0.1f * RELATIVE_BUTTON_BAR_HEIGHT);
+        button.setPosition(0.15f * buttonBarHeight, 0.15f * buttonBarHeight);
         button.addListener(listener);
         return button;
     }

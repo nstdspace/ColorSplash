@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Queue;
+
+import javax.annotation.Resource;
 
 import de.nstdspace.colorsplash.view.animation.AnimationStylesheet;
 import de.nstdspace.colorsplash.view.animation.DefaultAnimationStylesheet;
@@ -18,6 +21,8 @@ public class DefaultStylesheet implements Stylesheet {
     private static TextureRegionDrawable colorBoxTextureRegionDrawable;
     private static AnimationStylesheet animationStylesheet;
 
+    private static TextureRegionDrawable showTargetButtonDrawable;
+
     public DefaultStylesheet(){
         createTextures();
         animationStylesheet = new DefaultAnimationStylesheet();
@@ -27,6 +32,15 @@ public class DefaultStylesheet implements Stylesheet {
         backgroundTexture = ResourceTools.loadTexture("bgtest2.png");
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         colorBoxTextureRegionDrawable = new TextureRegionDrawable(new TextureRegion(ResourceTools.loadTexture("colorbox_light.png")));
+        showTargetButtonDrawable = loadTextureIntoDrawable("show_target_button.png");
+    }
+
+    private TextureRegionDrawable loadTextureIntoDrawable(String name){
+        return new TextureRegionDrawable(loadTextureIntoRegion(name));
+    }
+
+    private TextureRegion loadTextureIntoRegion(String name){
+        return new TextureRegion(ResourceTools.loadTexture(name));
     }
 
     @Override
@@ -40,8 +54,13 @@ public class DefaultStylesheet implements Stylesheet {
     }
 
     @Override
-    public TextureRegionDrawable getColorBoxTexture() {
+    public TextureRegionDrawable getColorBoxDrawable() {
         return colorBoxTextureRegionDrawable;
+    }
+
+    @Override
+    public TextureRegionDrawable getShowTargetButtonDrawable(){
+        return showTargetButtonDrawable;
     }
 
     @Override

@@ -8,7 +8,8 @@ import de.nstdspace.colorsplash.view.animation.AnimationStylesheet;
 
 public interface Stylesheet extends Disposable {
 
-    TextureRegionDrawable getColorBoxTexture();
+    TextureRegionDrawable getColorBoxDrawable();
+    TextureRegionDrawable getShowTargetButtonDrawable();
     Texture getBackgroundTexture();
 
     AnimationStylesheet getAnimationStylesheet();
