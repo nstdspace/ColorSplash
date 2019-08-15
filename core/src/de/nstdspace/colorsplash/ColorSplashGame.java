@@ -64,6 +64,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 			showIntro();
 		}
 		else {
+			showGuiContext();
 			showLevelSelect();
 			//showGame();
 		}
@@ -99,11 +100,14 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 		gameStage.addActor(introViewContext);
 	}
 
+	private void showGuiContext(){
+		guiViewContext = new GuiViewContext(defaultStyleSheet);
+		guiViewContext.setColor(Color.BLACK);
+		guiViewContext.addAction(Actions.color(new Color(255.0f / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f)));
+		gameStage.addActor(guiViewContext);
+	}
+
 	private void showLevelSelect(){
-        guiViewContext = new GuiViewContext(defaultStyleSheet);
-        guiViewContext.setColor(Color.BLACK);
-        guiViewContext.addAction(Actions.color(new Color(255.0f / 255.0f, 200 / 255.0f, 255 / 255.0f, 1.0f)));
-        gameStage.addActor(guiViewContext);
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener((int pack, int level) -> {
 			context.remove();
@@ -146,8 +150,8 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 			}
 		};
 		gameField.addAction(Actions.sequence(
-				defaultStyleSheet.getAnimationStylesheet().provideGameFieldDismissAnimation(gameField),
-				afterDismissAction
+			defaultStyleSheet.getAnimationStylesheet().provideGameFieldDismissAnimation(gameField),
+			afterDismissAction
 		));
 	}
 
