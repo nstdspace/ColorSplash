@@ -100,7 +100,6 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	private void showGuiContext(){
 		guiViewContext = new GuiViewContext(defaultStyleSheet);
 		guiViewContext.setColor(Color.WHITE);
-		makeGuiBackgroundGlimmer();
 		gameStage.addActor(guiViewContext);
 	}
 
@@ -124,6 +123,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 
 	private void showLevelSelect(){
+		makeGuiBackgroundGlimmer();
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener((int pack, int level) -> {
 			context.remove();
@@ -141,6 +141,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	private void showGame(){
 		//TODO: move to gui context
 		stopGuiBackgroundGlimmer();
+		guiViewContext.addAction(Actions.color(Color.LIGHT_GRAY, 2f, Interpolation.linear));
 		gameStage.addActor(currentGameMode.getGameField());
 	}
 

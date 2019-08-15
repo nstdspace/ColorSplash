@@ -20,7 +20,7 @@ public class LevelManager {
                 gameMode = GameModeManager.enrollGameMode1(Arrays.asList(Color.RED, Color.GREEN, Color.BLUE, Color.BROWN), Color.RED, 20);
             }
             if (level == 2) {
-                gameMode = GameModeManager.enrollGameModeLike1WithPattern(Arrays.asList(Color.BLACK, Color.YELLOW), Color.BLACK, 10, new GameField.ChangePattern(
+                gameMode = GameModeManager.enrollGameModeLike1WithPattern(Arrays.asList(Color.DARK_GRAY, Color.YELLOW), Color.DARK_GRAY, 10, new GameField.ChangePattern(
                         new int[][]{
                                 {-1, 0, 1},
                                 {-1, 1, 1},

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import de.nstdspace.colorsplash.ColorSplashGame;
 import de.nstdspace.colorsplash.view.AnimationTools;
+import de.nstdspace.colorsplash.view.ResourceTools;
 import de.nstdspace.colorsplash.view.TextActor;
 
 public class LevelSelectContext extends ViewContext {
@@ -58,17 +59,17 @@ public class LevelSelectContext extends ViewContext {
 
         Group h = new Group();
 
-//        Texture t = ResourceTools.createOneColoredTexture(Color.PINK);
-//        Image test = new Image(t);
-//        test.setSize(groupWidth, groupHeight);
-//        h.addActor(test);
+        Texture t = ResourceTools.createOneColoredTexture(Color.PINK);
+        Image test = new Image(t);
+        test.setSize(groupWidth, groupHeight);
+        h.addActor(test);
 
 
         Color buttonTint = Color.WHITE;
         //TODO: implement pack selection
         int packId = 1;
 
-        for(int i = 0; i < 35; i++){
+        for(int i = 34; i >= 0; i--){
             Image image = new Image();
             if(i < 5){
                 image.setDrawable(drI[i]);
@@ -78,7 +79,7 @@ public class LevelSelectContext extends ViewContext {
             }
             image.setSize(buttonSize, buttonSize);
             float buttonX = (i % 5) * (buttonSize + buttonGapSize);
-            float buttonY = groupHeight - ((i / 5) * (buttonSize + buttonGapSize));
+            float buttonY = ((i / 5) * (buttonSize + buttonGapSize));
             image.setPosition(buttonX, buttonY);
             int levelId = i;
             image.setColor(buttonTint);
