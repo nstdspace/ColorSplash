@@ -23,6 +23,7 @@ public abstract class DefaultGameMode implements MonochromeGameMode {
     private GameField gameField;
     private int shuffleCount;
     private Color color;
+    private static final Random RANDOM = new Random();
 
     interface GameFieldPattern {
         boolean checkBox(DefaultColorBox box);
@@ -40,12 +41,15 @@ public abstract class DefaultGameMode implements MonochromeGameMode {
     }
 
     public void shuffleGameField(int shuffleCount){
-        Random random = new Random();
         for(int i = 0; i < shuffleCount; i++){
-            int randomX = random.nextInt(gameField.getGridSize());
-            int randomY = random.nextInt(gameField.getGridSize());
+            int randomX = getNextRandomPosition();
+            int randomY = getNextRandomPosition();
             fieldTapAction(gameField.getColorBox(randomX, randomY));
         }
+    }
+
+    private int getNextRandomPosition() {
+        return RANDOM.nextInt(gameField.getGridSize());
     }
 
     public void makeInitialGameFieldAppearance(){

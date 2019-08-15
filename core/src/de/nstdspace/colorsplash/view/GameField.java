@@ -1,5 +1,6 @@
 package de.nstdspace.colorsplash.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -8,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 import java.util.HashMap;
-import java.util.Random;
+import java.util.Map;
 
 import de.nstdspace.colorsplash.ColorSplashGame;
 
@@ -66,16 +67,23 @@ public class GameField extends Group {
         }
     }
 
-    public void changeColors(DefaultColorBox box, ChangePattern pattern, HashMap<Color, Color> colorSwitchMap){
+    public void changeColors(DefaultColorBox box, ChangePattern pattern, Map<Color, Color> colorSwitchMap){
         changeColors(box.fieldPositionX, box.fieldPositionY, pattern, colorSwitchMap);
     }
 
-    public void changeColors(int x, int y, ChangePattern pattern, HashMap<Color, Color> colorSwitchMap){
-        for(int dir[] : pattern.getAffectedDirections()){
-            int arrayX = x + dir[0];
-            int arrayY = y + dir[1];
+    public void changeColors(int x, int y, ChangePattern pattern, Map<Color, Color> colorSwitchMap){
+        for(int entry[] : pattern.getChangeBehvaiour()){
+            int arrayX = x + entry[0];
+            int arrayY = y + entry[1];
             if(arrayX >= 0 && arrayX < boxGrid.length && arrayY >= 0 && arrayY < boxGrid.length){
-                boxGrid[arrayY][arrayX].setColor(colorSwitchMap.get(boxGrid[arrayY][arrayX].getGameColor()));
+                Color currentColor = getColorBox(arrayX, arrayY).getGameColor();
+                int colorStep = entry[2];
+                for(int i = 0; i < colorStep; i++){
+                    currentColor = colorSwitchMap.get(currentColor);
+                }
+                Gdx.app.log("COLOR_CHANGE", "to.. " + currentColor);
+
+                boxGrid[arrayY][arrayX].setColor(currentColor);
             }
         }
     }
@@ -140,16 +148,21 @@ public class GameField extends Group {
      */
     public static class ChangePattern {
 
-        public static ChangePattern CROSS_SURROUND = new ChangePattern(new int[][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}});
+        public static ChangePattern CROSS_SURROUND = new ChangePattern(new int[][]{{0, 1, 1}, {1, 0, 1}, {-1, 0, 1}, {0, -1, 1}});
 
-        private int affectedDirections[][];
+        /**
+         * 0: x-dir
+         * 1: y-dir
+         * 2: color-steps
+         */
+        private int changeBehvaiour[][];
 
-        public ChangePattern(int affectedDirections[][]){
-            this.affectedDirections = affectedDirections;
+        public ChangePattern(int changeBehvaiour[][]){
+            this.changeBehvaiour = changeBehvaiour;
         }
 
-        public int[][] getAffectedDirections(){
-            return affectedDirections;
+        public int[][] getChangeBehvaiour(){
+            return changeBehvaiour;
         }
     }
 }

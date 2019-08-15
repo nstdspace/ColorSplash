@@ -56,7 +56,8 @@ public class GuiViewContext extends ViewContext {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.setColor(backgroundTint);
+        //batch.setColor(backgroundTint);
+        batch.setColor(getColor());
         batch.draw(backgroundTextureRegion, 0, 0);
         batch.draw(guiBackground, 0, 0, ColorSplashGame.VIEWPORT_WIDTH, buttonBarHeight);
         batch.draw(guiBackground, 0, ColorSplashGame.VIEWPORT_HEIGHT - buttonBarHeight, ColorSplashGame.VIEWPORT_WIDTH, buttonBarHeight);

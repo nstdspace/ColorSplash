@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import de.nstdspace.colorsplash.view.DefaultColorBox;
 import de.nstdspace.colorsplash.view.GameField;
@@ -12,10 +14,10 @@ import de.nstdspace.colorsplash.view.GameField;
 public class GameModeLevel1_1 extends DefaultGameMode {
 
     private Color gameEndFillColor;
-    private ArrayList<Color> colors;
-    private HashMap<Color, Color> colorSwitchMap;
+    private List<Color> colors;
+    private Map<Color, Color> colorSwitchMap;
 
-    public GameModeLevel1_1(ArrayList<Color> colors, Color gameEndFillColor, int shuffleCount){
+    public GameModeLevel1_1(List<Color> colors, Color gameEndFillColor, int shuffleCount){
         super(gameEndFillColor, shuffleCount);
         this.colors = colors;
         this.gameEndFillColor = gameEndFillColor;
@@ -26,7 +28,7 @@ public class GameModeLevel1_1 extends DefaultGameMode {
         createColorSwitchMap(colors);
     }
 
-    private void createColorSwitchMap(ArrayList<Color> colors){
+    private void createColorSwitchMap(final List<Color> colors){
         colorSwitchMap = new HashMap<>();
         for(int i = 0; i < colors.size(); i++){
             if(i == colors.size() - 1) colorSwitchMap.put(colors.get(i), colors.get(0));
@@ -38,5 +40,9 @@ public class GameModeLevel1_1 extends DefaultGameMode {
     @Override
     public void fieldTapAction(DefaultColorBox box) {
         getGameField().changeColors(box, GameField.ChangePattern.CROSS_SURROUND, colorSwitchMap);
+    }
+
+    public Map<Color, Color> getColorSwitchMap(){
+        return colorSwitchMap;
     }
 }
