@@ -123,6 +123,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 
 
 	private void showLevelSelect(){
+		guiViewContext.currentMode = GuiViewContext.GuiMode.LEVEL_SELECT;
 		makeGuiBackgroundGlimmer();
 		LevelSelectContext context = new LevelSelectContext(defaultFont);
 		context.addLevelSelectListener((int pack, int level) -> {
@@ -139,6 +140,7 @@ public class ColorSplashGame extends ApplicationAdapter implements GameListener 
 	}
 
 	private void showGame(){
+		guiViewContext.switchMode(GuiViewContext.GuiMode.INGAME);
 		//TODO: move to gui context
 		stopGuiBackgroundGlimmer();
 		guiViewContext.addAction(Actions.color(Color.LIGHT_GRAY, 2f, Interpolation.linear));

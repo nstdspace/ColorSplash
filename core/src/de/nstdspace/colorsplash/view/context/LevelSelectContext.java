@@ -59,10 +59,10 @@ public class LevelSelectContext extends ViewContext {
 
         Group h = new Group();
 
-        Texture t = ResourceTools.createOneColoredTexture(Color.PINK);
-        Image test = new Image(t);
-        test.setSize(groupWidth, groupHeight);
-        h.addActor(test);
+        //Texture t = ResourceTools.createOneColoredTexture(Color.PINK);
+        //Image test = new Image(t);
+        //test.setSize(groupWidth, groupHeight);
+        //h.addActor(test);
 
 
         Color buttonTint = Color.WHITE;
